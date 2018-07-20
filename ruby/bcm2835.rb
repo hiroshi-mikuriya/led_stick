@@ -90,7 +90,7 @@ module SPI
       BCM.bcm2835_spi_begin
       BCM.bcm2835_spi_setBitOrder(1) # MSB First
       BCM.bcm2835_spi_setDataMode(0) # CPOL = 0, CPHA = 0
-      BCM.bcm2835_spi_setClockDivider(256)
+      BCM.bcm2835_spi_setClockDivider(128)
       BCM.bcm2835_spi_chipSelect(cs)
       BCM.bcm2835_spi_setChipSelectPolarity(cs, 0) # LOW
       BCM.bcm2835_spi_writenb(array, array.size)
