@@ -1,3 +1,5 @@
+// gcc -shared -fPIC -I/usr/local/include -o stick_sdk.so stick_sdk.c
+
 #include <bcm2835.h>
 #include "stick_sdk.h"
 
