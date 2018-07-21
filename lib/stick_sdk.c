@@ -49,5 +49,6 @@ void write_led_pattern(int line, char * pattern)
 
 void show_line(int line)
 {
-
+    char d[] = { 2, 0, 0, (line >> 8) & 0xFF, line & 0xFF };
+    write_spi(d, sizeof(d), 0);
 }
