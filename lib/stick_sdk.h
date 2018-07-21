@@ -12,7 +12,7 @@ void stop_led_demo(void);
  * @param[in] line 0 - 1364
  * @param[in] pattern LED flash pattern. It should has 32 * 3 items. RGB value should be between 0 and 3.
  */
-void write_led_pattern(int line, char * pattern);
+void write_line(int line, char * pattern);
 
 void show_line(int line);
 

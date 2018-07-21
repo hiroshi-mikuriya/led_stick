@@ -31,7 +31,7 @@ void stop_led_demo(void)
     write_spi(d, sizeof(d), 0);
 }
 
-void write_led_pattern(int line, char * pattern)
+void write_line(int line, char * pattern)
 {
     char d[24 + 3] = { 2 };
     int addr = 0x8000 + line * 24;
