@@ -9,4 +9,5 @@ module STICK
   extern 'void stop_led_demo(void)'
   extern 'void write_line(int line, char * pattern)'
   extern 'void show_line(int line)'
+  extern 'void get_gyro(short *)'
 end

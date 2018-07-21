@@ -16,6 +16,15 @@ STICK.write_line(3, ([1,1,0] * 32).pack('C*'))
 STICK.write_line(4, ([0,1,1] * 32).pack('C*'))
 STICK.write_line(5, ([1,0,1] * 32).pack('C*'))
 
+Thread.new do
+  loop do
+    g = ([0] * 14).pack('C*')
+    STICK.get_gyro(g)
+    p g.unpack('s>*')
+    sleep(1)
+  end
+end
+
 loop do
   6.times do |line|
     STICK.show_line(line)
