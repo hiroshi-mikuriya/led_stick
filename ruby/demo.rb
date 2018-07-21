@@ -50,8 +50,10 @@ loop do
   32.times do |n|
     %w[r g b].each do |c|
       puts(led: n, color: c)
-      write_pattern(0, n => { c => 3 })
-      sleep(0.3)
+      4.times do |pwr|
+        write_pattern(0, n => { c => pwr })
+        sleep(0.3)
+      end
     end
   end
 end
