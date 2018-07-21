@@ -1,4 +1,4 @@
-// gcc -shared -fPIC -I/usr/local/include -L/usr/local/lib -lbcm2835 -o stick_sdk.so stick_sdk.c
+// gcc -shared -fPIC -I/usr/local/include  -o stick_sdk.so stick_sdk.c /usr/local/lib/libbcm2835.a
 
 #include <bcm2835.h>
 #include "stick_sdk.h"
