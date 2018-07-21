@@ -3,6 +3,12 @@
 #include <bcm2835.h>
 #include "stick_sdk.h"
 
+#define REG_PWR_MGMT_1    0x6B
+#define REG_INT_PIN_CFG   0x37
+#define REG_GYRO_CONFIG   0x1B
+#define REG_ACCEL_CONFIG1 0x1C
+#define REG_ACCEL_CONFIG2 0x1D
+
 static int g_sdk_is_initialized = 0;
 static const int g_table[] = { 20, 18, 16, 10, 8, 22, 0, 14, 12, 6, 4, 2 };
 
@@ -22,7 +28,20 @@ static void write_spi(char * d, unsigned int len, unsigned char cs)
 
 int init_sdk(void)
 {
-    return g_sdk_is_initialized = bcm2835_init();
+    if(g_sdk_is_initialized = bcm2835_init()){
+        bcm2835_i2c_begin();
+        bcm2835_i2c_setSlaveAddress(0x68);
+        bcm2835_i2c_setClockDivider(2500);
+        char c0[] = {REG_PWR_MGMT_1, 0x80};
+        char c1[] = {REG_PWR_MGMT_1, 0x00};
+        char c2[] = {REG_INT_PIN_CFG, 0x02};
+        char c3[] = {REG_ACCEL_CONFIG1, 0x08};
+        bcm2835_i2c_write(c0, sizeof(c0));
+        bcm2835_i2c_write(c1, sizeof(c1));
+        bcm2835_i2c_write(c2, sizeof(c2));
+        bcm2835_i2c_write(c3, sizeof(c3));
+    }
+    return g_sdk_is_initialized;
 }
 
 void stop_led_demo(void)
@@ -53,4 +72,9 @@ void show_line(int line)
 {
     char d[] = { 2, 0, 0, (line >> 8) & 0xFF, line & 0xFF };
     write_spi(d, sizeof(d), 0);
+}
+
+void get_gyro(short * gyro)
+{
+
 }

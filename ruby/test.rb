@@ -8,30 +8,36 @@ if BCM.bcm2835_init.zero?
   exit 1
 end
 
-BCM.bcm2835_i2c_begin
-BCM.bcm2835_i2c_setSlaveAddress(0x68)
-BCM.bcm2835_i2c_setClockDivider(2500)
-
-def write(cmd, d)
+def write(slave, cmd, d)
+  BCM.bcm2835_i2c_begin
+  BCM.bcm2835_i2c_setSlaveAddress(slave)
+  BCM.bcm2835_i2c_setClockDivider(2500)
   d0 = [cmd, d].flatten.pack('C*')
   BCM.bcm2835_i2c_write(d0, d0.size)
+  BCM.bcm2835_i2c_end
   sleep(0.0001)
 end
 
-write(REG_PWR_MGMT_1, 0x80) # reset register
-write(REG_PWR_MGMT_1, 0x00) # clear power management
-write(REG_INT_PIN_CFG, 0x02) # enable AK8963 using I2C
-write(REG_ACCEL_CONFIG1, 0x08) # mod acceleration sensor range.
-
-loop do
-  write(0x3B, [])
-  buf = ([0] * 14).pack('C*')
+def read(slave, cmd, size)
+  BCM.bcm2835_i2c_begin
+  BCM.bcm2835_i2c_setSlaveAddress(slave)
+  BCM.bcm2835_i2c_setClockDivider(2500)
+  d0 = [cmd].pack('C*')
+  BCM.bcm2835_i2c_write(d0, d0.size)
+  buf = ([0] * size).pack('C*')
   BCM.bcm2835_i2c_read(buf, buf.size)
-  g = buf.unpack('s>*').map { |a| a * 8.0 / 0x8000 }
-  p g
-  # puts(g: { x: g[0], y: g[1], z: g[2] }, angle: { x: angle[4], y: angle[5], z: angle[6]})
-  sleep(0.1)
+  BCM.bcm2835_i2c_end
+  buf
 end
 
-# BCM.bcm2835_i2c_end
-# BCM.bcm2835_close
+write(0x68, REG_PWR_MGMT_1, 0x80) # reset register
+write(0x68, REG_PWR_MGMT_1, 0x00) # clear power management
+write(0x68, REG_INT_PIN_CFG, 0x02) # enable AK8963 using I2C
+write(0x68, REG_ACCEL_CONFIG1, 0x08) # mod acceleration sensor range.
+
+loop do
+  buf = read(0x68, 0x3B, 14)
+  g = buf.unpack('s>*').map { |a| a * 8.0 / 0x8000 }
+  p g
+  sleep(0.1)
+end

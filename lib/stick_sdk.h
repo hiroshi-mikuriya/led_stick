@@ -16,4 +16,9 @@ void write_line(int line, char * pattern);
 
 void show_line(int line);
 
+/**
+ * @param[out] gyro buffer size = 6
+ */
+void get_gyro(short * gyro);
+
 #endif // STICK_SDK__
