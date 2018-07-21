@@ -26,20 +26,34 @@ static void write_spi(char * d, unsigned int len, unsigned char cs)
     }
 }
 
+static void write_i2c(unsigned char slave, unsigned char cmd, unsigned char d)
+{
+    char buf[] = { cmd, d };
+    bcm2835_i2c_begin();
+    bcm2835_i2c_setSlaveAddress(slave);
+    bcm2835_i2c_setClockDivider(2500);
+    bcm2835_i2c_write(buf, sizeof(buf));
+    bcm2835_i2c_end();
+}
+
+static void read_i2c(unsigned char slave, unsigned char cmd, char * buffer, int len)
+{
+    bcm2835_i2c_begin();
+    bcm2835_i2c_setSlaveAddress(slave);
+    bcm2835_i2c_setClockDivider(2500);
+    char c[] = { cmd };
+    bcm2835_i2c_write(c, sizeof(c));
+    bcm2835_i2c_read(buffer, len);
+    bcm2835_i2c_end();
+}
+
 int init_sdk(void)
 {
     if(g_sdk_is_initialized = bcm2835_init()){
-        bcm2835_i2c_begin();
-        bcm2835_i2c_setSlaveAddress(0x68);
-        bcm2835_i2c_setClockDivider(2500);
-        char c0[] = {REG_PWR_MGMT_1, 0x80};
-        char c1[] = {REG_PWR_MGMT_1, 0x00};
-        char c2[] = {REG_INT_PIN_CFG, 0x02};
-        char c3[] = {REG_ACCEL_CONFIG1, 0x08};
-        bcm2835_i2c_write(c0, sizeof(c0));
-        bcm2835_i2c_write(c1, sizeof(c1));
-        bcm2835_i2c_write(c2, sizeof(c2));
-        bcm2835_i2c_write(c3, sizeof(c3));
+        write_i2c(0x68, REG_PWR_MGMT_1, 0x80); // reset register
+        write_i2c(0x68, REG_PWR_MGMT_1, 0x00); // clear power management
+        write_i2c(0x68, REG_INT_PIN_CFG, 0x02); // enable AK8963 using I2C
+        write_i2c(0x68, REG_ACCEL_CONFIG1, 0x08); // mod acceleration sensor range.
     }
     return g_sdk_is_initialized;
 }
@@ -76,5 +90,9 @@ void show_line(int line)
 
 void get_gyro(short * gyro)
 {
-
+    char b[14] = { 0 };
+    read_i2c(0x68, 0x3B, b, sizeof(b));
+    for(int i = 0; i < 7; ++i){
+        gyro[i] = (short)((b[i * 2] << 8) + b[i * 2 + 1] & 0xFF);
+    }
 }
