@@ -93,6 +93,8 @@ void get_gyro(short * gyro)
     char b[14] = { 0 };
     read_i2c(0x68, 0x3B, b, sizeof(b));
     for(int i = 0; i < 7; ++i){
-        gyro[i] = (short)((b[i * 2] << 8) + b[i * 2 + 1] & 0xFF);
+        unsigned char u0 = b[i * 2] & 0xFF;
+        unsigned char u1 = b[i * 2 + 1] & 0xFF;
+        gyro[i] = (short)((u0 << 8) + u1);
     }
 }
