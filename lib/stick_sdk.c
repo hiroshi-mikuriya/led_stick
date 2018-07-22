@@ -28,23 +28,27 @@ static void write_spi(char * d, unsigned int len, unsigned char cs)
 
 static void write_i2c(unsigned char slave, unsigned char cmd, unsigned char d)
 {
-    char buf[] = { cmd, d };
-    bcm2835_i2c_begin();
-    bcm2835_i2c_setSlaveAddress(slave);
-    bcm2835_i2c_setClockDivider(2500);
-    bcm2835_i2c_write(buf, sizeof(buf));
-    bcm2835_i2c_end();
+    if(g_sdk_is_initialized){
+        char buf[] = { cmd, d };
+        bcm2835_i2c_begin();
+        bcm2835_i2c_setSlaveAddress(slave);
+        bcm2835_i2c_setClockDivider(2500);
+        bcm2835_i2c_write(buf, sizeof(buf));
+        bcm2835_i2c_end();
+    }
 }
 
 static void read_i2c(unsigned char slave, unsigned char cmd, char * buffer, int len)
 {
-    bcm2835_i2c_begin();
-    bcm2835_i2c_setSlaveAddress(slave);
-    bcm2835_i2c_setClockDivider(2500);
-    char c[] = { cmd };
-    bcm2835_i2c_write(c, sizeof(c));
-    bcm2835_i2c_read(buffer, len);
-    bcm2835_i2c_end();
+    if(g_sdk_is_initialized){
+        bcm2835_i2c_begin();
+        bcm2835_i2c_setSlaveAddress(slave);
+        bcm2835_i2c_setClockDivider(2500);
+        char c[] = { cmd };
+        bcm2835_i2c_write(c, sizeof(c));
+        bcm2835_i2c_read(buffer, len);
+        bcm2835_i2c_end();
+    }
 }
 
 int init_sdk(void)
