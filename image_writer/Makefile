@@ -12,13 +12,8 @@ LIBS      := -lpthread \
 	     `pkg-config opencv --libs` \
 	     -lboost_system \
 		 -lboost_program_options \
+		 -lstick_sdk \
 	     -lm
-
-UNAME := ${shell uname}
-ifeq ($(UNAME), Linux)
-CXXFLAGS := $(CXXFLAGS)
-LIBS := $(LIBS) -lstick_sdk
-endif
 
 OBJS      := $(SRCS:.cpp=.o)
 
@@ -30,7 +25,7 @@ all: $(TARGET)
 make: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CXX) -o $@ $(OBJS) $(LIBS)
+	$(CXX) -o $@ $(OBJS) $(LIBS) -L../lib
 
 .PHONY: clean
 clean:
