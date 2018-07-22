@@ -2,10 +2,10 @@ CXX       := g++
 CXXFLAGS  := -Wall -std=c++0x -v
 
 TARGET    := image_writer
-PROJ_ROOT := $(realpath ..)
+PROJ_ROOT := $(realpath .)
 VPATH     := $(PROJ_ROOT)
 INCLUDES  := `pkg-config opencv --cflags` \
-	     -I $(PROJ_ROOT)../lib
+	     -I$(PROJ_ROOT)/../lib
 SRCS      := main.cpp
 LIBS      := -lpthread \
 	     -ldl \
