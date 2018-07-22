@@ -16,7 +16,7 @@ int main(int argc, const char * argv[])
         std::cerr << "failed to open image file." << std::endl;
         return 3;
     }
-    cv::flip(img, img, -1);
+    // cv::flip(img, img, -1);
     int const lines = 1364;
     cv::resize(img, img, cv::Size(lines, 32));
     img /= 64; // make colors ranging from 0 - 3.
