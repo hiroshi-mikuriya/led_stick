@@ -16,9 +16,9 @@ static void write_spi(char * d, unsigned int len, unsigned char cs)
 {
     if(g_sdk_is_initialized){
         bcm2835_spi_begin();
-        bcm2835_spi_setBitOrder(1); // MSB First
-        bcm2835_spi_setDataMode(0); // CPOL = 0, CPHA = 0
-        bcm2835_spi_setClockDivider(128);
+        bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);
+        bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);
+        bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_128);
         bcm2835_spi_chipSelect(cs);
         bcm2835_spi_setChipSelectPolarity(cs, 0); // LOW;
         bcm2835_spi_writenb(d, len);
@@ -32,7 +32,7 @@ static void write_i2c(unsigned char slave, unsigned char cmd, unsigned char d)
         char buf[] = { cmd, d };
         bcm2835_i2c_begin();
         bcm2835_i2c_setSlaveAddress(slave);
-        bcm2835_i2c_setClockDivider(2500);
+        bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_2500);
         bcm2835_i2c_write(buf, sizeof(buf));
         bcm2835_i2c_end();
     }
@@ -43,7 +43,7 @@ static void read_i2c(unsigned char slave, unsigned char cmd, char * buffer, int 
     if(g_sdk_is_initialized){
         bcm2835_i2c_begin();
         bcm2835_i2c_setSlaveAddress(slave);
-        bcm2835_i2c_setClockDivider(2500);
+        bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_2500);
         char c[] = { cmd };
         bcm2835_i2c_write(c, sizeof(c));
         bcm2835_i2c_read(buffer, len);
@@ -64,7 +64,7 @@ int init_sdk(void)
 void stop_led_demo(void)
 {
     char d[] = { 2, 0, 2, 0, 0 };
-    write_spi(d, sizeof(d), 0);
+    write_spi(d, sizeof(d), BCM2835_SPI_CS0);
 }
 
 void write_line(int line, char * pattern)
@@ -82,13 +82,13 @@ void write_line(int line, char * pattern)
             d[i0 + 3] |= v << i1;
         }
     }
-    write_spi(d, sizeof(d), 0);
+    write_spi(d, sizeof(d), BCM2835_SPI_CS0);
 }
 
 void show_line(int line)
 {
     char d[] = { 2, 0, 0, (line >> 8) & 0xFF, line & 0xFF };
-    write_spi(d, sizeof(d), 0);
+    write_spi(d, sizeof(d), BCM2835_SPI_CS0);
 }
 
 void get_gyro(short * gyro)
