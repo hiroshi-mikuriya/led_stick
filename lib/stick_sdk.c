@@ -53,12 +53,11 @@ static void read_i2c(unsigned char slave, unsigned char cmd, char * buffer, int 
 
 int init_sdk(void)
 {
-    if(g_sdk_is_initialized = bcm2835_init()){
-        write_i2c(0x68, REG_PWR_MGMT_1, 0x80); // reset register
-        write_i2c(0x68, REG_PWR_MGMT_1, 0x00); // clear power management
-        write_i2c(0x68, REG_INT_PIN_CFG, 0x02); // enable AK8963 using I2C
-        write_i2c(0x68, REG_ACCEL_CONFIG1, 0x08); // mod acceleration sensor range.
-    }
+    g_sdk_is_initialized = bcm2835_init();
+    write_i2c(0x68, REG_PWR_MGMT_1, 0x80); // reset register
+    write_i2c(0x68, REG_PWR_MGMT_1, 0x00); // clear power management
+    write_i2c(0x68, REG_INT_PIN_CFG, 0x02); // enable AK8963 using I2C
+    write_i2c(0x68, REG_ACCEL_CONFIG1, 0x08); // mod acceleration sensor range.
     return g_sdk_is_initialized;
 }
 
