@@ -19,5 +19,8 @@ STICK.write_line(5, ([1,0,1] * 32).pack('C*'))
 loop do
   g = ([0] * 14).pack('C*')
   STICK.get_gyro(g)
-  p g0 = g.unpack('s*').map
+  g0 = g.unpack('s*')
+  line = (g0[2] + 15000) / 20
+  next unless (0...1364).cover? line
+  STICK.show_line(line)
 end
