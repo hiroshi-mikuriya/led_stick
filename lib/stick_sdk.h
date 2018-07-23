@@ -17,7 +17,12 @@ void write_line(int line, char * pattern);
 void show_line(int line);
 
 /**
- * @param[out] gyro buffer size = 6
+ * @param[out] accel [x, y, z]
+ */
+void get_accel(short * accel);
+
+/**
+ * @param[out] gyro [x, y, z]
  */
 void get_gyro(short * gyro);
 

@@ -27,7 +27,7 @@ static void write_i2c(unsigned char slave, unsigned char cmd, unsigned char d)
         char buf[] = { cmd, d };
         bcm2835_i2c_begin();
         bcm2835_i2c_setSlaveAddress(slave);
-        bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_2500);
+        bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_626);
         bcm2835_i2c_write(buf, sizeof(buf));
         bcm2835_i2c_end();
     }
@@ -38,7 +38,7 @@ static void read_i2c(unsigned char slave, unsigned char cmd, char * buffer, int 
     if(g_sdk_is_initialized){
         bcm2835_i2c_begin();
         bcm2835_i2c_setSlaveAddress(slave);
-        bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_2500);
+        bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_626);
         char c[] = { cmd };
         bcm2835_i2c_write(c, sizeof(c));
         bcm2835_i2c_read(buffer, len);
@@ -82,17 +82,27 @@ void write_line(int line, char * pattern)
 
 void show_line(int line)
 {
-    char d[] = { 2, 0, 0, (line >> 8) & 0xFF, line & 0xFF };
+    char d[] = { 2, 0, 0, (char)((line >> 8) & 0xFF), (char)(line & 0xFF) };
     write_spi(d, sizeof(d), BCM2835_SPI_CS0);
+}
+
+static void get_3params(short * dst, unsigned char slave, unsigned char addr)
+{
+    char b[6] = { 0 };
+    read_i2c(slave, addr, b, sizeof(b));
+    for(int i = 0; i < 3; ++i){
+        unsigned char u0 = b[i * 2] & 0xFF;
+        unsigned char u1 = b[i * 2 + 1] & 0xFF;
+        dst[i] = (short)((u0 << 8) + u1);
+    }
+}
+
+void get_accel(short * accel)
+{
+    get_3params(accel, 0x68, REG_ACCEL_XOUT_H);
 }
 
 void get_gyro(short * gyro)
 {
-    char b[14] = { 0 };
-    read_i2c(0x68, REG_ACCEL_XOUT_H, b, sizeof(b));
-    for(int i = 0; i < 7; ++i){
-        unsigned char u0 = b[i * 2] & 0xFF;
-        unsigned char u1 = b[i * 2 + 1] & 0xFF;
-        gyro[i] = (short)((u0 << 8) + u1);
-    }
+    get_3params(gyro, 0x68, REG_GYRO_XOUT_H);
 }
