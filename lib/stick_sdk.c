@@ -2,12 +2,7 @@
 
 #include <bcm2835.h>
 #include "stick_sdk.h"
-
-#define REG_PWR_MGMT_1    0x6B
-#define REG_INT_PIN_CFG   0x37
-#define REG_GYRO_CONFIG   0x1B
-#define REG_ACCEL_CONFIG1 0x1C
-#define REG_ACCEL_CONFIG2 0x1D
+#include "mpu9250reg.h"
 
 static int g_sdk_is_initialized = 0;
 static const int g_table[] = { 20, 18, 16, 10, 8, 22, 0, 14, 12, 6, 4, 2 };
@@ -94,7 +89,7 @@ void show_line(int line)
 void get_gyro(short * gyro)
 {
     char b[14] = { 0 };
-    read_i2c(0x68, 0x3B, b, sizeof(b));
+    read_i2c(0x68, REG_ACCEL_XOUT_H, b, sizeof(b));
     for(int i = 0; i < 7; ++i){
         unsigned char u0 = b[i * 2] & 0xFF;
         unsigned char u1 = b[i * 2 + 1] & 0xFF;
