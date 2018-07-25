@@ -49,7 +49,9 @@ int main(int argc, const char * argv[])
     }
     // cv::flip(img, img, -1);
     int const lines = 1364;
+    std::cerr << "writing image..." << std::endl;
     write(img, lines);
+    std::cerr << "complete!" << std::endl;
     show(lines);
     return 0;
 }
