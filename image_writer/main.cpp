@@ -3,7 +3,7 @@
 
 namespace
 {
-    void write(cv::Mat m, lines)
+    void write(cv::Mat m, int lines)
     {
         cv::Mat img;
         cv::resize(m, img, cv::Size(lines, 32));
@@ -42,6 +42,7 @@ int main(int argc, const char * argv[])
         std::cerr << "failed to init stick sdk." << std::endl;
         return 2;
     }
+    stop_led_demo();
     cv::Mat img = cv::imread(argv[1], 1);
     if(img.empty()){
         std::cerr << "failed to open image file." << std::endl;
