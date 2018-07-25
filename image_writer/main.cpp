@@ -24,7 +24,7 @@ namespace
         for(;;){
             short gyro[3] = { 0 };
             get_accel(gyro);
-            int line = (gyro[1] + 0x4000) / 20;
+            int line = (gyro[1] + 0x8000) / 40;
             if(0 <= line && line < lines){
                 show_line(line);
             }
@@ -48,7 +48,7 @@ int main(int argc, const char * argv[])
         std::cerr << "failed to open image file." << std::endl;
         return 3;
     }
-    // cv::flip(img, img, -1);
+    cv::flip(img, img, 1);
     int const lines = 1364;
     std::cerr << "writing image..." << std::endl;
     write(img, lines);
