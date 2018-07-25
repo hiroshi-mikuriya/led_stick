@@ -13,7 +13,7 @@ loop do
   g = ([0] * 6).pack('C*')
   STICK.get_accel(g)
   g0 = g.unpack('s*')
-  line = (g0[2] + 15000) / 20
+  line = (g0[1] + 15000) / 20
   next unless (0...1364).cover? line
   STICK.show_line(line)
 end

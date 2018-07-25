@@ -20,6 +20,6 @@ loop do
   g = ([0] * 6).pack('C*')
   STICK.get_accel(g)
   g0 = g.unpack('s*').map { |a| a * 8.0 / 0x8000 }
-  line = g0[0].to_i + 4
+  line = g0[1].to_i + 4
   STICK.show_line(line)
 end
