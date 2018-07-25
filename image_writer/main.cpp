@@ -19,14 +19,13 @@ int main(int argc, const char * argv[])
     // cv::flip(img, img, -1);
     int const lines = 1364;
     cv::resize(img, img, cv::Size(lines, 32));
-    img /= 64; // make colors ranging from 0 - 3.
     for(int x = 0; x < img.cols; ++x){
         char a[32 * 3] = { 0 };
-        for(int y = 0; y < 32; ++y){
+        for(int y = 0; y < img.rows; ++y){
             cv::Vec3b const bgr = img.at<cv::Vec3b>(y, x);
-            a[y * 3] = bgr[2];
-            a[y * 3 + 1] = bgr[1];
-            a[y * 3 + 2] = bgr[0];
+            a[y * 3] = bgr[2] / 64; // 0 - 255 => 0 - 3
+            a[y * 3 + 1] = bgr[1] / 64;
+            a[y * 3 + 2] = bgr[0] / 64;
         }
         write_line(x, a);
     }
