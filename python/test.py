@@ -257,7 +257,7 @@ class SL_MPU9250:
     return rawX, rawY, rawZ
 
   def getTemp(self):
-    data = self.bus.read_i2c_block_data(self.address, 0x65 ,2)
+    data = self.bus.read_i2c_block_data(self.address, 65 ,2)
     raw = data[0] << 8 | data[1]
     return ((raw - self.offsetRoomTemp) / self.tempSensitivity) + 21
 
