@@ -2,13 +2,12 @@
 
 ## ディレクトリ構成
 
-* image_writer
 * images
 * lib
 * python
 * ruby
 * sanko
-
+* show_pic  
 
 ## Raspberry Pi開発環境構築実施手順
 
