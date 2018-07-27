@@ -43,7 +43,8 @@ namespace
 
     void show(int lines)
     {
-        for(;!s_button_event;){
+        s_button_event = false;
+        while(!s_button_event){
             short gyro[3] = { 0 };
             get_accel(gyro);
             int line = (gyro[1] + 0x8000) / 40;
@@ -69,13 +70,8 @@ int main(int argc, const char * argv[])
     }
     stop_led_demo();
     button_monitor();
-    std::thread th([]{
-        for(;;){
-            button_monitor();
-        }
-    });
+    std::thread th([]{ for(;;) button_monitor(); });
     for(;;){
-        s_button_event = false;
         cv::Mat img;
         for(int i = 0; i < 10; ++i){
             cam >> img;
