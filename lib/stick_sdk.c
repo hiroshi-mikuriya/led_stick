@@ -113,7 +113,7 @@ void get_gyro(short * gyro)
     get_3params(gyro, 0x68, REG_GYRO_XOUT_H);
 }
 
-void get_button(void)
+int get_button(void)
 {
     return bcm2835_gpio_lev(GPIO_BUTTON);
 }
