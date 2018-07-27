@@ -64,17 +64,20 @@ int main(int argc, const char * argv[])
         return 2;
     }
     stop_led_demo();
+    button_monitor();
     std::thread th([]{
         button_monitor();
     });
+    MyCamera cam(0);
     for(;;){
         s_button_event = false;
-        cv::Mat img = cv::imread(argv[1], 1); // TODO: get image from camera.
+        cv::Mat img;
+        cam >> img;
         if(img.empty()){
             std::cerr << "failed to open image file." << std::endl;
             continue;
         }
-        cv::flip(img, img, 1);
+        // cv::flip(img, img, 1);
         int const lines = 1364;
         std::cerr << "writing image..." << std::endl;
         write(img, lines);
