@@ -81,7 +81,7 @@ int main(int argc, const char * argv[])
             std::cerr << "failed to open image file." << std::endl;
             continue;
         }
-        // cv::flip(img, img, 1);
+        cv::flip(img.t(), img, 0);
         int const lines = 1364;
         std::cerr << "writing image..." << std::endl;
         write(img, lines);
