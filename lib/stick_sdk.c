@@ -4,7 +4,7 @@
 #include "stick_sdk.h"
 #include "mpu9250reg.h"
 
-#define GPIO  5
+#define GPIO_BUTTON  5
 
 static int g_sdk_is_initialized = 0;
 static const int g_table[] = { 20, 18, 16, 10, 8, 22, 0, 14, 12, 6, 4, 2 };
@@ -52,8 +52,8 @@ int init_sdk(void)
 {
     g_sdk_is_initialized = bcm2835_init();
     if(g_sdk_is_initialized){
-        bcm2835_gpio_fsel(GPIO, 0);
-        bcm2835_gpio_set_pud(GPIO, 2); // PULLUP
+        bcm2835_gpio_fsel(GPIO_BUTTON, 0);
+        bcm2835_gpio_set_pud(GPIO_BUTTON, 2); // PULLUP
         write_i2c(0x68, REG_PWR_MGMT_1, 0x80); // reset register
         write_i2c(0x68, REG_PWR_MGMT_1, 0x00); // clear power management
         write_i2c(0x68, REG_INT_PIN_CFG, 0x02); // enable AK8963 using I2C
@@ -115,7 +115,7 @@ void get_gyro(short * gyro)
 
 void get_button(void)
 {
-    return bcm2835_gpio_lev(GPIO);
+    return bcm2835_gpio_lev(GPIO_BUTTON);
 }
 
 void sleep(int ms)
