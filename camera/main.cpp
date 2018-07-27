@@ -61,6 +61,11 @@ int main(int argc, const char * argv[])
     static_cast<void>(argv); // unused
     if(!init_sdk()){
         std::cerr << "failed to init stick sdk." << std::endl;
+        return 1;
+    }
+    MyCamera cam(0);
+    if(!cam.isOpened()){
+        std::cerr << "failed to open camera device." << std::endl;
         return 2;
     }
     stop_led_demo();
@@ -68,7 +73,6 @@ int main(int argc, const char * argv[])
     std::thread th([]{
         button_monitor();
     });
-    MyCamera cam(0);
     for(;;){
         s_button_event = false;
         cv::Mat img;
