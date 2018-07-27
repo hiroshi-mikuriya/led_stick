@@ -75,7 +75,10 @@ int main(int argc, const char * argv[])
     for(;;){
         s_button_event = false;
         cv::Mat img;
-        cam >> img;
+        for(int i = 0; i < 10; ++i){
+            cam >> img;
+            sleep(10);
+        }
         if(img.empty()){
             std::cerr << "failed to open image file." << std::endl;
             continue;
