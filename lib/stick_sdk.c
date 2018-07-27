@@ -4,6 +4,8 @@
 #include "stick_sdk.h"
 #include "mpu9250reg.h"
 
+#define GPIO  5
+
 static int g_sdk_is_initialized = 0;
 static const int g_table[] = { 20, 18, 16, 10, 8, 22, 0, 14, 12, 6, 4, 2 };
 
@@ -49,10 +51,14 @@ static void read_i2c(unsigned char slave, unsigned char cmd, char * buffer, int 
 int init_sdk(void)
 {
     g_sdk_is_initialized = bcm2835_init();
-    write_i2c(0x68, REG_PWR_MGMT_1, 0x80); // reset register
-    write_i2c(0x68, REG_PWR_MGMT_1, 0x00); // clear power management
-    write_i2c(0x68, REG_INT_PIN_CFG, 0x02); // enable AK8963 using I2C
-    write_i2c(0x68, REG_ACCEL_CONFIG1, 0x08); // mod acceleration sensor range.
+    if(g_sdk_is_initialized){
+        bcm2835_gpio_fsel(GPIO, 0);
+        bcm2835_gpio_set_pud(GPIO, 2); // PULLUP
+        write_i2c(0x68, REG_PWR_MGMT_1, 0x80); // reset register
+        write_i2c(0x68, REG_PWR_MGMT_1, 0x00); // clear power management
+        write_i2c(0x68, REG_INT_PIN_CFG, 0x02); // enable AK8963 using I2C
+        write_i2c(0x68, REG_ACCEL_CONFIG1, 0x08); // mod acceleration sensor range.
+    }
     return g_sdk_is_initialized;
 }
 
@@ -105,4 +111,14 @@ void get_accel(short * accel)
 void get_gyro(short * gyro)
 {
     get_3params(gyro, 0x68, REG_GYRO_XOUT_H);
+}
+
+void get_button(void)
+{
+    return bcm2835_gpio_lev(GPIO);
+}
+
+void sleep(int ms)
+{
+    bcm2835_delay(ms);
 }

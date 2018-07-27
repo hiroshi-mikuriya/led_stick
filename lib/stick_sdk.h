@@ -26,4 +26,8 @@ void get_accel(short * accel);
  */
 void get_gyro(short * gyro);
 
+int get_button(void);
+
+void sleep(int ms);
+
 #endif // STICK_SDK__

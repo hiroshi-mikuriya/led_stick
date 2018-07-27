@@ -1,8 +1,30 @@
 #include "stick_sdk.h"
 #include <opencv2/opencv.hpp>
+#include <thread>
 
 namespace
 {
+    bool s_button_event = false;
+
+    int sampling_button(int count)
+    {
+        int res = 0;
+        for(int i = 0; i < count; ++i){
+            res += get_button();
+            sleep(2);
+        }
+        return res;
+    }
+
+    void button_monitor()
+    {
+        int const count = 10;
+        while(count != sampling_button(count));
+        while(0 != sampling_button(count));
+        s_button_event = true;
+        std::cerr << "button pushed!" << std::endl;
+    }
+
     void write(cv::Mat m, int lines)
     {
         cv::Mat img;
@@ -21,7 +43,7 @@ namespace
 
     void show(int lines)
     {
-        for(;;){
+        for(;!s_button_event;){
             short gyro[3] = { 0 };
             get_accel(gyro);
             int line = (gyro[1] + 0x8000) / 40;
@@ -34,25 +56,31 @@ namespace
 
 int main(int argc, const char * argv[])
 {
-    if(argc < 2){
-        std::cerr << "input image file path." << std::endl;
-        return 1;
-    }
+    static_cast<void>(argc); // unused
+    static_cast<void>(argv); // unused
     if(!init_sdk()){
         std::cerr << "failed to init stick sdk." << std::endl;
         return 2;
     }
     stop_led_demo();
-    cv::Mat img = cv::imread(argv[1], 1);
-    if(img.empty()){
-        std::cerr << "failed to open image file." << std::endl;
-        return 3;
+    std::thread th([]{
+        button_monitor();
+    });
+    for(;;){
+        s_button_event = false;
+        cv::Mat img = cv::imread(argv[1], 1); // TODO: get image from camera.
+        if(img.empty()){
+            std::cerr << "failed to open image file." << std::endl;
+            continue;
+        }
+        cv::flip(img, img, 1);
+        int const lines = 1364;
+        std::cerr << "writing image..." << std::endl;
+        write(img, lines);
+        std::cerr << "complete!" << std::endl;
+        show(lines);
     }
-    cv::flip(img, img, 1);
-    int const lines = 1364;
-    std::cerr << "writing image..." << std::endl;
-    write(img, lines);
-    std::cerr << "complete!" << std::endl;
-    show(lines);
+    // unreachable.
+    th.join();
     return 0;
 }
