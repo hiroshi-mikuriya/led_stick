@@ -27,7 +27,7 @@ all: $(TARGET)
 make: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CXX) -o $@ $(OBJS) $(LIBS) -L../lib -L./
+	$(CXX) -o $@ $(OBJS) $(LIBS) -L../lib
 
 .PHONY: clean
 clean:
