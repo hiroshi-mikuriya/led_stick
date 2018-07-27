@@ -1,6 +1,5 @@
 #include "stick_sdk.h"
 #include "mycamera.hpp"
-#include <opencv2/opencv.hpp>
 #include <thread>
 
 namespace
