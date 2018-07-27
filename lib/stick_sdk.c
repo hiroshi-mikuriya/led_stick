@@ -52,8 +52,8 @@ int init_sdk(void)
 {
     g_sdk_is_initialized = bcm2835_init();
     if(g_sdk_is_initialized){
-        bcm2835_gpio_fsel(GPIO_BUTTON, 0);
-        bcm2835_gpio_set_pud(GPIO_BUTTON, 2); // PULLUP
+        bcm2835_gpio_fsel(GPIO_BUTTON, BCM2835_GPIO_FSEL_INPT);
+        bcm2835_gpio_set_pud(GPIO_BUTTON, BCM2835_GPIO_PUD_UP);
         write_i2c(0x68, REG_PWR_MGMT_1, 0x80); // reset register
         write_i2c(0x68, REG_PWR_MGMT_1, 0x00); // clear power management
         write_i2c(0x68, REG_INT_PIN_CFG, 0x02); // enable AK8963 using I2C
