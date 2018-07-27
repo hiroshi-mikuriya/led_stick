@@ -1,7 +1,7 @@
 #pragma once
 
-#ifdef ENABLE_RASPBERRY_PI_CAMERA
 #include "RaspiCamCV.h"
+
 class MyCamera
 {
     RaspiCamCvCapture * m;
@@ -44,7 +44,3 @@ public:
         return raspiCamCvGetCaptureProperty(m, propId);
     }
 };
-#else
-#include <opencv/highgui.h>
-typedef cv::VideoCapture MyCamera;
-#endif
