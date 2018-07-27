@@ -14,7 +14,7 @@ LIBS      := -lpthread \
              -lboost_program_options \
              -lstick_sdk \
 	     -lbcm2835 \
-             -lraspicamcv
+             -lraspicamcv \
              -lm
 
 OBJS      := $(SRCS:.cpp=.o)
@@ -27,7 +27,7 @@ all: $(TARGET)
 make: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CXX) -o $@ $(OBJS) $(LIBS) -L../lib
+	$(CXX) -o $@ $(OBJS) $(LIBS) -L../lib -L./
 
 .PHONY: clean
 clean:
