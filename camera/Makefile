@@ -1,20 +1,21 @@
 CXX       := g++
 CXXFLAGS  := -Wall -std=c++0x -v
 
-TARGET    := show_pic
+TARGET    := camera 
 PROJ_ROOT := $(realpath .)
 VPATH     := $(PROJ_ROOT)
 INCLUDES  := `pkg-config opencv --cflags` \
 	           -I$(PROJ_ROOT)/../lib
 SRCS      := main.cpp
 LIBS      := -lpthread \
-	         -ldl \
-	         `pkg-config opencv --libs` \
-	         -lboost_system \
-		     -lboost_program_options \
-		     -lstick_sdk \
-		     -lbcm2835 \
-	         -lm
+	     -ldl \
+	     `pkg-config opencv --libs` \
+	     -lboost_system \
+             -lboost_program_options \
+             -lstick_sdk \
+	     -lbcm2835 \
+             -lraspicamcv
+             -lm
 
 OBJS      := $(SRCS:.cpp=.o)
 
