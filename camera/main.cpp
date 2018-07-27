@@ -70,7 +70,9 @@ int main(int argc, const char * argv[])
     stop_led_demo();
     button_monitor();
     std::thread th([]{
-        button_monitor();
+        for(;;){
+            button_monitor();
+        }
     });
     for(;;){
         s_button_event = false;
