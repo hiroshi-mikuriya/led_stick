@@ -2,23 +2,31 @@
 
 ## ディレクトリ構成
 
+* camera  
+PIカメラで撮影しスティックに表示するプログラム  
+ボタンを押すと撮影実行する。  
+あらかじめPI Cameraのライブラリをインストールしておくこと。
 * images  
 picture files
 * lib  
 SDK source
 * picamera  
-picamera library
+PI Cameraのライブラリ  
+使用する場合、install.shを実行する。
 * python  
 test mpu9250
 * ruby  
 SDK sample
 * sanko
 * show_pic  
-show picture on LED STICK
+画像ファイルをスティックに表示するプログラム
 
 ## Raspberry Pi開発環境構築実施手順
 
 ※配布したSDカードには実施済
+
+[バックアップデータをダウンロード](https://drive.google.com/open?id=1TwVP-dZgIXtYlnaNzhRqqs8cp-seA_qB)
+
 
 ## Raspi SDカード
 
