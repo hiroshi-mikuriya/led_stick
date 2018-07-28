@@ -24,7 +24,7 @@ namespace
         for(;;){
             short gyro[3] = { 0 };
             get_accel(gyro);
-            int line = (gyro[1] + 0x8000) / 60;
+            int line = (gyro[1] + 0x9000) / 60;
             if(0 <= line && line < lines){
                 show_line(line);
             }

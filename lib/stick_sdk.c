@@ -64,7 +64,7 @@ int init_sdk(void)
 
 void stop_led_demo(void)
 {
-    char d[] = { 2, 0, 2, 0, 0 };
+    char d[] = { 2, 0, 2, 0, 64 };
     write_spi(d, sizeof(d), BCM2835_SPI_CS0);
 }
 
