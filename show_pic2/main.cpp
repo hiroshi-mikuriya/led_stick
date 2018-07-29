@@ -72,7 +72,7 @@ int main(int argc, const char * argv[])
   });
   stop_led_demo();
   for(;;){
-    cv::Mat img = cv::imread(images[s_select], 1);
+    cv::Mat img = cv::imread("../images/" + images[s_select], 1);
     if(img.empty()){
         std::cerr << "failed to open image file." << std::endl;
       return 3;
