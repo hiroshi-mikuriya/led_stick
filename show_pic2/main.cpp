@@ -12,7 +12,7 @@ namespace
     
     int sampling_button(int count){
         int res = 0;
-	for(int i = 0; i < count; ++i){
+        for(int i = 0; i < count; ++i){
 	    res += get_button();
 	    sleep(2);
         }
@@ -63,7 +63,7 @@ int main(int argc, const char * argv[])
 {
     if(!init_sdk()){
         std::cerr << "failed to init stick sdk." << std::endl;
-        return 2;
+        return 1;
     }
     std::thread th([]{
         for(;;){
@@ -72,10 +72,10 @@ int main(int argc, const char * argv[])
     });
     stop_led_demo();
     for(;;){
-    	cv::Mat img = cv::imread(images[s_select], 1);
+    	cv::Mat img = cv::imread("../images/" + images[s_select], 1);
     	if(img.empty()){
       	    std::cerr << "failed to open image file." << std::endl;
-            return 3;
+            return 2;
         }
         cv::flip(img, img, 1);
         int const lines = 1364;
