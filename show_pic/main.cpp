@@ -22,9 +22,9 @@ namespace
     void show(int lines)
     {
         for(;;){
-            short gyro[3] = { 0 };
-            get_accel(gyro);
-            int line = (gyro[1] + 0x8000) / 48;
+            short a[3] = { 0 };
+            get_accel(a);
+            int line = (a[1] + 0x8000) / 48;
             if(0 <= line && line < lines){
                 show_line(line);
             }
