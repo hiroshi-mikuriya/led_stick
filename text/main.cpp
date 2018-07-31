@@ -36,7 +36,8 @@ namespace
             for(int j = 0; j < 100; ++j){
                 short a[3] = { 0 };
                 get_accel(a);
-                int line = ((a[1] + 0x8000) * TEXT_WIDTH / 0x10000 + i) % lines;
+                int const pos = (a[1] + 0x8000) * TEXT_WIDTH / 0x10000;
+                int const line = (TEXT_WIDTH - 1 - pos + i) % lines;
                 show_line(line);
             }
         }
