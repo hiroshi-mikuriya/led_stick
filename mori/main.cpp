@@ -730,6 +730,7 @@ int main(int argc, const char * argv[])
         std::cerr << "failed to init stick sdk." << std::endl;
         return 2;
     }
+    stop_led_demo();
     Clear();
     std::thread th([]{
         for(;;){
