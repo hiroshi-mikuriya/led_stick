@@ -26,9 +26,11 @@ namespace
 
     void Show()
     {
+        s_mutex.lock();
         for(int x = 0; x < LED_WIDTH; ++x){
             write_line(x, s_mem[x]);
         }
+        s_mutex.unlock();
     }
 
     void SetLed(int x, int y, int z, int rgb)
@@ -42,19 +44,6 @@ namespace
     void Wait(int ms)
     {
         // do nothing
-    }
-
-    void show(int lines)
-    {
-        for(int i = 0;;i = (i + 1) % lines){
-            for(int j = 0; j < 100; ++j){
-                short a[3] = { 0 };
-                get_accel(a);
-                int const pos = (a[1] + 0x8000) * TEXT_WIDTH / 0x10000;
-                int const line = (TEXT_WIDTH - 1 - pos + i) % lines;
-                show_line(line);
-            }
-        }
     }
 
     int N = 100;
