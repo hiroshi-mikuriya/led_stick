@@ -32,13 +32,11 @@ namespace
 
     void show(int lines)
     {
-        for(;;){
+        for(int i = 0;;i = (i + 1) % lines){
             short a[3] = { 0 };
             get_accel(a);
-            int line = (a[1] + 0x8000) * lines / 0x10000;
-            if(0 <= line && line < lines){
-                show_line(line);
-            }
+            int line = (a[1] + 0x8000) * TEXT_WIDTH / 0x10000 + i;
+            show_line(line);
         }
     }
 
