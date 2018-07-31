@@ -12,6 +12,8 @@ LIBS	  := -lpthread \
 			 `pkg-config opencv --libs` \
 			 -lboost_system \
 			 -lboost_program_options \
+			 -lstick_sdk \
+			 -lbcm2835 \
 			 -lm
 
 OBJS	  := $(SRCS:.cpp=.o)

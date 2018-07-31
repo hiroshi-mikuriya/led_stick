@@ -1,8 +1,19 @@
 #include <opencv2/opencv.hpp>
+#include "stick_sdk.h"
 
 namespace
 {
-    /*
+    int const TEXT_WIDTH = 20;
+
+    std::vector<cv::Scalar> const TEXT_COLORS {
+        cv::Scalar(0xFF, 0x00, 0x00),
+        cv::Scalar(0xFF, 0xFF, 0x00),
+        cv::Scalar(0x00, 0xFF, 0x00),
+        cv::Scalar(0x00, 0xFF, 0xFF),
+        cv::Scalar(0x00, 0x00, 0xFF),
+        cv::Scalar(0xFF, 0x00, 0xFF)
+    };
+
     void write(cv::Mat m, int lines)
     {
         cv::Mat img;
@@ -24,25 +35,21 @@ namespace
         for(;;){
             short a[3] = { 0 };
             get_accel(a);
-            int line = (a[1] + 0x8000) / 48;
+            int line = (a[1] + 0x8000) * lines / 0x10000;
             if(0 <= line && line < lines){
                 show_line(line);
             }
         }
     }
-    */
 
     cv::Mat text_image(std::string const text)
     {
-        int const w = 20;
-        std::vector<cv::Scalar> const colors { 
-            cv::Scalar(0xFF, 0x00, 0x00), cv::Scalar(0xFF, 0xFF, 0x00),
-            cv::Scalar(0x00, 0xFF, 0x00), cv::Scalar(0x00, 0xFF, 0xFF),
-            cv::Scalar(0x00, 0x00, 0xFF), cv::Scalar(0xFF, 0x00, 0xFF) };
-        cv::Mat img = cv::Mat::zeros(32, text.size() * w, CV_8UC3);
+        cv::Mat img = cv::Mat::zeros(32, text.size() * TEXT_WIDTH, CV_8UC3);
         for(size_t i = 0; i < text.size(); ++i){
-            const char a[2] = { text[i] };
-            cv::putText(img, a, cv::Point(i * w, img.rows * 0.8), cv::FONT_HERSHEY_SIMPLEX, 1, colors[i % colors.size()], 2, CV_AA);
+            const char c[2] = { text[i] };
+            auto const pt = cv::Point(i * TEXT_WIDTH, img.rows * 0.8);
+            auto const color = TEXT_COLORS[i % TEXT_COLORS.size()];
+            cv::putText(img, c, pt, cv::FONT_HERSHEY_SIMPLEX, 1, color, 2, CV_AA);
         }
         return img;
     }
@@ -54,22 +61,17 @@ int main(int argc, const char * argv[])
         std::cerr << "input some texts." << std::endl;
         return 1;
     }
-    /*
     if(!init_sdk()){
         std::cerr << "failed to init stick sdk." << std::endl;
         return 2;
     }
-    */
-    auto img = text_image(argv[1]);
-    // cv::flip(img, img, 1);
-    cv::imshow("text", img);
-    cv::waitKey(0);
-    /*
-    int const lines = 1364;
+    std::string const text(argv[1]);
+    auto img = text_image(text);
+    cv::flip(img, img, 1);
+    int const lines = text.size() * TEXT_WIDTH;
     std::cerr << "writing image..." << std::endl;
     write(img, lines);
     std::cerr << "complete!" << std::endl;
     show(lines);
-    */
     return 0;
 }
