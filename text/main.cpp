@@ -37,7 +37,7 @@ namespace
                 short a[3] = { 0 };
                 get_accel(a);
                 int line = ((a[1] + 0x8000) * TEXT_WIDTH / 0x10000 + i) % lines;
-                show_line(TEXT_WIDTH - line);
+                show_line(line);
             }
         }
     }
