@@ -45,7 +45,7 @@ namespace
 
     cv::Mat text_image(std::string const text)
     {
-        cv::Mat img = cv::Mat::zeros(32, text.size() * TEXT_WIDTH, CV_8UC3);
+        cv::Mat img = cv::Mat::zeros(32, (text.size() + 1) * TEXT_WIDTH, CV_8UC3);
         for(size_t i = 0; i < text.size(); ++i){
             const char c[2] = { text[i] };
             auto const pt = cv::Point(i * TEXT_WIDTH, img.rows * 0.8);
