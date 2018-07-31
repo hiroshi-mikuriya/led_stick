@@ -1,16 +1,18 @@
-CXX	   := g++
+CXX       := g++
 CXXFLAGS  := -Wall -std=c++0x -v
 
-TARGET	:= mori
+TARGET    := udp 
 PROJ_ROOT := $(realpath .)
-VPATH	 := $(PROJ_ROOT)
+VPATH     := $(PROJ_ROOT)
 INCLUDES  := -I$(PROJ_ROOT)/../lib
 SRCS	  := main.cpp
 LIBS	  := -lpthread \
-			 -ldl \
-			 -lstick_sdk \
-			 -lbcm2835 \
-			 -lm
+		 -ldl \
+		 `pkg-config opencv --libs` \
+		 -lboost_system \
+		 -lstick_sdk \
+		 -lbcm2835 \
+		 -lm
 
 OBJS	  := $(SRCS:.cpp=.o)
 
