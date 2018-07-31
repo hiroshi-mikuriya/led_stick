@@ -32,12 +32,12 @@ namespace
 
     void show(int lines)
     {
-        for(int i = lines - 1;;i = (i - 1) % lines){
+        for(int i = 0;;i = (i + 1) % lines){
             for(int j = 0; j < 100; ++j){
                 short a[3] = { 0 };
                 get_accel(a);
                 int const pos = (a[1] + 0x8000) * TEXT_WIDTH / 0x10000;
-                int const line = (pos + i) % lines;
+                int const line = (TEXT_WIDTH - 1 - pos + i) % lines;
                 show_line(line);
             }
         }
@@ -68,8 +68,7 @@ int main(int argc, const char * argv[])
     }
     std::string const text(argv[1]);
     auto img = text_image(text);
-    cv::flip(img, img, 1);
-    int const lines = text.size() * TEXT_WIDTH;
+    int const lines = img.cols;
     std::cerr << "writing image..." << std::endl;
     write(img, lines);
     std::cerr << "complete!" << std::endl;
