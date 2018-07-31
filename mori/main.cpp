@@ -43,7 +43,7 @@ namespace
 
     void Wait(int ms)
     {
-        // do nothing
+        sleep(ms);
     }
 
     int N = 100;
