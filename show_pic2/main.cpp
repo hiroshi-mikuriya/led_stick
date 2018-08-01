@@ -51,10 +51,9 @@ namespace
     while(!s_button_event){
       short a[3] = { 0 };
       get_accel(a);
-      int line = (a[1] + 0x8000) / 48;
-      if(0 <= line && line < lines){
-        show_line(line);
-      }
+      int line = (a[1] + 0x8000) * lines / 0x10000;
+      show_line(line);
+      sleep(1);
     }
   }
 }
