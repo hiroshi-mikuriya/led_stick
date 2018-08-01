@@ -22,9 +22,9 @@ namespace led {
                     char r = (u[i] & 0xF8);
                     char g = ((u[i] & 0x07) << 5) + ((u[i + 1] & 0xE0) >> 3);
                     char b = (u[i + 1] & 0x1F) << 3;
-                    ptn[y * 3] = r / 64;
-                    ptn[y * 3 + 1] = g / 64;
-                    ptn[y * 3 + 2] = b / 64;
+                    ptn[y * 3] = std::max<char>(ptn[y * 3], r / 64);
+                    ptn[y * 3 + 1] = std::max<char>(ptn[y * 3 + 1], g / 64);
+                    ptn[y * 3 + 2] = std::max<char>(ptn[y * 3 + 2], b / 64);
                 }
             }
             mtx.lock();
