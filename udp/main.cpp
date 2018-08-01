@@ -52,6 +52,7 @@ int main(int argc, const char * argv[])
             mtx.lock();
             show_line(led::width - 1 - line);
             mtx.unlock();
+	    usleep(1);
         }
     });
     namespace asio = boost::asio;
