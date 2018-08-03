@@ -44,9 +44,8 @@ int main(int argc, const char * argv[])
     double len = std::sqrt(a[0] * a[0] + a[1] * a[1]);
     double x = a[0] / len;
     double y = a[1] / len;
-    double th = std::acos(x);
-    double th0 = th + (y < 0 ? CV_PI : 0);
-    std::cout << a[0] << " , " << a[1] << " , " << a[2] << " , " << th << " , " << th0 << std::endl;
+    double th = std::atan2(y, x);
+    std::cout << a[0] << " , " << a[1] << " , " << a[2] << " , " << th << std::endl;
     sleep(1);
   }
   if(argc < 2){
