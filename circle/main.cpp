@@ -25,6 +25,7 @@ namespace
     for(;;){
       short a[3] = { 0 };
       get_accel(a);
+      double theta = std::atan2(a[1], a[0]);
       int line = (a[1] + 0x8000) * lines / 0x10000;
       show_line(line);
       sleep(1);
@@ -37,13 +38,6 @@ int main(int argc, const char * argv[])
   if(!init_sdk()){
     std::cerr << "failed to init stick sdk." << std::endl;
     return 2;
-  }
-  for(;;){
-    short a[3] = { 0 };
-    get_accel(a);
-    double th = std::atan2(a[1], a[0]);
-    std::cout << a[0] << " , " << a[1] << " , " << a[2] << " , " << th << std::endl;
-    sleep(1);
   }
   if(argc < 2){
     std::cerr << "input image file path." << std::endl;
