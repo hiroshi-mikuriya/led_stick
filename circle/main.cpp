@@ -41,7 +41,7 @@ int main(int argc, const char * argv[])
     short a[3] = { 0 };
     get_accel(a);
     std::cout << a[0] << " , " << a[1] << " , " << a[2] << std::endl;
-    usleep(1);
+    sleep(1);
   }
   if(argc < 2){
     std::cerr << "input image file path." << std::endl;
