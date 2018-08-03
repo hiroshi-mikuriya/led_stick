@@ -1,7 +1,6 @@
 #include "stick_sdk.h"
 #include <opencv2/opencv.hpp>
 #include <thread>
-#include <cmath>
 
 namespace
 {
@@ -49,16 +48,11 @@ namespace
   void show(int lines)
   {
     s_button_event = false;
-    double const range = CV_PI / 2;
     while(!s_button_event){
       short a[3] = { 0 };
       get_accel(a);
-      double theta = std::atan2(a[1], a[0]);
-      if(std::abs(theta) < range){
-        double a = theta + range;
-        int line = static_cast<int>((theta + range) * lines / (2 * range));
-        show_line(line);
-      }
+      int line = (a[1] + 0x8000) * lines / 0x10000;
+      show_line(line);
       sleep(1);
     }
   }
