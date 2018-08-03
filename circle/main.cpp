@@ -41,10 +41,7 @@ int main(int argc, const char * argv[])
   for(;;){
     short a[3] = { 0 };
     get_accel(a);
-    double len = std::sqrt(a[0] * a[0] + a[1] * a[1]);
-    double x = a[0] / len;
-    double y = a[1] / len;
-    double th = std::atan2(y, x);
+    double th = std::atan2(a[1], a[0]);
     std::cout << a[0] << " , " << a[1] << " , " << a[2] << " , " << th << std::endl;
     sleep(1);
   }
