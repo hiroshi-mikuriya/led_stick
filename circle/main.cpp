@@ -1,4 +1,5 @@
 #include "stick_sdk.h"
+#include <cmath>
 #include <opencv2/opencv.hpp>
 
 namespace
@@ -40,7 +41,12 @@ int main(int argc, const char * argv[])
   for(;;){
     short a[3] = { 0 };
     get_accel(a);
-    std::cout << a[0] << " , " << a[1] << " , " << a[2] << std::endl;
+    double len = std::sqrt(a[0] * a[0] + a[1] * a[1]);
+    double x = a[0] / len;
+    double y = a[1] / len;
+    double th = std::acos(x);
+    double th0 = th + (y < 0 ? CV_PI : 0);
+    std::cout << a[0] << " , " << a[1] << " , " << a[2] << " , " << th << " , " << th0 << std::endl;
     sleep(1);
   }
   if(argc < 2){
