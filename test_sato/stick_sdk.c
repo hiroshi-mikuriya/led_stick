@@ -8,6 +8,22 @@
 #define GPIO_BUTTON  5
 
 static int g_sdk_is_initialized = 0;
+
+/*
+00 4G
+01 4R
+02 3R
+10 4G
+11 3B
+12 3G
+20 2G
+21 2R
+22 1R
+30 2B
+31 1B
+32 1G
+33 4Y
+*/
 static const int g_table[] = { 10, 9, 8, 5, 4, 11, 0, 7, 6, 3, 2, 1 };
 
 static void write_spi(char * d, unsigned int len, unsigned char cs)
@@ -78,6 +94,7 @@ void write_line(int line, char * pattern)
     for(int led = 0; led < 64; ++led){
         for(int rgb = 0; rgb < 3; ++rgb){
             char v = pattern[led * 3 + rgb] & 0x0F;
+            // int n = ((led % 4) * 3 + rgb) * 4 + (led / 4) * 48;
             int n = g_table[(led % 4) * 3 + rgb] * 4 + (led / 4) * 48;
             // int n = g_table[(led % 4) * 3 + rgb] + (led / 4) * 24;
             int i0 = n / 8;
