@@ -22,12 +22,9 @@ namespace
       for(int y = 0; y < LED_COUNT; ++y){
         int y0 = y < LED_COUNT / 2 ? y : y + LED_COUNT / 2 + CENTER_AREA_COUNT;
         auto const bgr = rot.at<cv::Vec3b>(y0, rot.cols / 2);
-        char r = bgr[2] / 16;
-        char g = bgr[1] / 16;
-        char b = bgr[0] / 16;
-        buf[y * 3] = r;
-        buf[y * 3 + 1] = g;
-        buf[y * 3 + 2] = b;
+        buf[y * 3] = bgr[2] / 16;
+        buf[y * 3 + 1] = bgr[1] / 16;
+        buf[y * 3 + 2] = bgr[0] / 16;
       }
       write_line(deg, buf);
     }
