@@ -1,5 +1,7 @@
 #include "stick_sdk.h"
+#include <opencv2/opencv.hpp>
 #include <thread>
+#include <iostream>
 
 #define LED_COUNT 32 * 2
 #define CENTER_AREA_COUNT 10 * 2
@@ -13,8 +15,8 @@ int main(int argc, const char * argv[])
   stop_led_demo();
   std::thread th([]{
     for(;;){
-      short acc[3] = {0};
-      get_accel(acc);
+      short a[3] = {0};
+      get_accel(a);
       double th = std::atan2(a[1], a[0]);
       int deg = static_cast<int>(0 < th ? th / CV_PI * 180 : th / CV_PI * 180 + 360);
       std::cout << "angle: " << deg << " theta: " << th << std::endl;
