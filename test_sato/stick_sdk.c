@@ -73,15 +73,13 @@ void stop_led_demo(void)
 void write_line(int line, char * pattern)
 {
     char d[96 + 3] = { 2 };
-    int addr = 0x8000 + line * 24;
+    int addr = 0x8000 + line * 96;
     d[1] = (addr >> 8) & 0xFF;
     d[2] = addr & 0xFF;
     for(int led = 0; led < 64; ++led){
         for(int rgb = 0; rgb < 3; ++rgb){
             char v = pattern[led * 3 + rgb] & 0x0F;
-            // int n = ((led % 4) * 3 + rgb) * 4 + (led / 4) * 48;
             int n = g_table[(led % 4) * 3 + rgb] * 4 + (led / 4) * 48;
-            // int n = g_table[(led % 4) * 3 + rgb] + (led / 4) * 24;
             int i0 = n / 8;
             int i1 = n % 8;
             d[i0 + 3] |= v << i1;

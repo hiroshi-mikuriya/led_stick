@@ -23,16 +23,15 @@ int main(int argc, const char * argv[])
       sleep(100);
     }
   });
-  show_line(0);
+  for(int i = 0; i < LED_COUNT * 3; ++i){
+    char a[LED_COUNT * 3] = { 0 };
+    a[i] = 0x0F;
+    write_line(i, a);
+  }
   for(;;){
-    for(int led = 0; led < 4; ++led){
-      for(int rgb = 0; rgb < 3; ++rgb){
-        char a[LED_COUNT * 3] = {0};
-        a[led * 3 + rgb] = 0x0F;
-        write_line(0, a);
-        std::cout << "LED : " << led << " RGB : " << rgb << std::endl;
-        sleep(2000);
-      }
+    for(int i = 0; i < LED_COUNT * 3; ++i){
+      show_line(i);
+      sleep(200);
     }
   }
   return 0;
