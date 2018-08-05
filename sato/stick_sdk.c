@@ -79,9 +79,7 @@ void write_line(int line, char * pattern)
     for(int led = 0; led < 64; ++led){
         for(int rgb = 0; rgb < 3; ++rgb){
             char v = pattern[led * 3 + rgb] & 0x0F;
-            // int n = ((led % 4) * 3 + rgb) * 4 + (led / 4) * 48;
             int n = g_table[(led % 4) * 3 + rgb] * 4 + (led / 4) * 48;
-            // int n = g_table[(led % 4) * 3 + rgb] + (led / 4) * 24;
             int i0 = n / 8;
             int i1 = n % 8;
             d[i0 + 3] |= v << i1;

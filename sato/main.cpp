@@ -13,7 +13,7 @@ namespace
     int const w = static_cast<int>(m.cols * r);
     cv::resize(m, m, cv::Size(w, s));
     std::cout << m.size() << std::endl;
-    for(int deg = 0; deg < 360; ++deg){
+    for(int deg = 0; deg < 360; deg += 2){
       cv::Point const center(m.cols / 2, m.rows / 2);
       double scale = 1.0;
       cv::Mat affine = cv::getRotationMatrix2D(center, deg, scale);
@@ -37,8 +37,8 @@ namespace
       short a[3] = { 0 };
       get_accel(a);
       double th = std::atan2(a[1], a[0]);
-      int line = static_cast<int>(0 < th ? th / CV_PI * 180 : th / CV_PI * 180 + 360);
-      show_line(line);
+      int angle = static_cast<int>(0 < th ? th / CV_PI * 180 : th / CV_PI * 180 + 360);
+      show_line(angle / 2);
       sleep(1);
     }
   }
