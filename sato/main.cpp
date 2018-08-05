@@ -27,7 +27,7 @@ namespace
         buf[y * 3 + 1] = bgr[1] / 16;
         buf[y * 3 + 2] = bgr[0] / 16;
       }
-      write_line(deg, buf);
+      write_line(deg / 2, buf);
     }
   }
 
