@@ -73,7 +73,7 @@ void stop_led_demo(void)
 void write_line(int line, char * pattern)
 {
     char d[96 + 3] = { 2 };
-    int addr = 0x8000 + line * 24;
+    int addr = 0x8000 + line * 96;
     d[1] = (addr >> 8) & 0xFF;
     d[2] = addr & 0xFF;
     for(int led = 0; led < 64; ++led){

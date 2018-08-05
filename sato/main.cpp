@@ -10,8 +10,9 @@ namespace
   {
     int const s = LED_COUNT + CENTER_AREA_COUNT;
     double const r = s * 1.0 / m.rows;
-    int const w = static_cast<int>(m.rows * r);
+    int const w = static_cast<int>(m.cols * r);
     cv::resize(m, m, cv::Size(w, s));
+    std::cout << m.size() << std::endl;
     for(int deg = 0; deg < 360; ++deg){
       cv::Point const center(m.cols / 2, m.rows / 2);
       double scale = 1.0;
