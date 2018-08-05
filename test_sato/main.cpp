@@ -19,18 +19,19 @@ int main(int argc, const char * argv[])
       get_accel(a);
       double th = std::atan2(a[1], a[0]);
       int deg = static_cast<int>(0 < th ? th / CV_PI * 180 : th / CV_PI * 180 + 360);
-      std::cout << "angle: " << deg << " theta: " << th << std::endl;
+      // std::cout << "angle: " << deg << " theta: " << th << std::endl;
       sleep(100);
     }
   });
   show_line(0);
   for(;;){
-    for(int led = 0; led < LED_COUNT; ++led){
+    for(int led = 0; led < 4; ++led){
       for(int rgb = 0; rgb < 3; ++rgb){
         char a[LED_COUNT * 3] = {0};
         a[led * 3 + rgb] = 0x0F;
         write_line(0, a);
-        sleep(100);
+        std::cout << "LED : " << led << " RGB : " << rgb << std::endl;
+        sleep(2000);
       }
     }
   }

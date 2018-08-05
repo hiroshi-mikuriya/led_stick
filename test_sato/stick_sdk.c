@@ -3,11 +3,12 @@
 #include <bcm2835.h>
 #include "stick_sdk.h"
 #include "mpu9250reg.h"
+#include <iostream>
 
 #define GPIO_BUTTON  5
 
 static int g_sdk_is_initialized = 0;
-static const int g_table[] = { 20, 18, 16, 10, 8, 22, 0, 14, 12, 6, 4, 2 };
+static const int g_table[] = { 10, 9, 8, 5, 4, 11, 0, 7, 6, 3, 2, 1 };
 
 static void write_spi(char * d, unsigned int len, unsigned char cs)
 {
@@ -77,8 +78,8 @@ void write_line(int line, char * pattern)
     for(int led = 0; led < 64; ++led){
         for(int rgb = 0; rgb < 3; ++rgb){
             char v = pattern[led * 3 + rgb] & 0x0F;
-            int n = g_table[(led % 4) * 3 + rgb] + (led / 4) * 24;
-            n *= 2;
+            int n = g_table[(led % 4) * 3 + rgb] * 4 + (led / 4) * 48;
+            // int n = g_table[(led % 4) * 3 + rgb] + (led / 4) * 24;
             int i0 = n / 8;
             int i1 = n % 8;
             d[i0 + 3] |= v << i1;
