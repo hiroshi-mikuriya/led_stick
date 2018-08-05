@@ -5,7 +5,7 @@ TARGET	:= sato
 PROJ_ROOT := $(realpath .)
 VPATH	 := $(PROJ_ROOT)
 INCLUDES  := `pkg-config opencv --cflags`
-SRCS	  := main.cpp stick_sdk.cpp
+SRCS	  := main.cpp stick_sdk.c
 LIBS	  := -lpthread \
 			 -ldl \
 			 `pkg-config opencv --libs` \

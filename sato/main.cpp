@@ -11,13 +11,13 @@ namespace
     int const s = LED_COUNT + CENTER_AREA_COUNT;
     double const r = s * 1.0 / m.rows;
     int const w = static_cast<int>(m.rows * r);
+    cv::resize(m, m, cv::Size(s, w));
     for(int deg = 0; deg < 360; ++deg){
       cv::Point const center(m.cols / 2, m.rows / 2);
       double scale = 1.0;
       cv::Mat affine = cv::getRotationMatrix2D(center, deg, scale);
       cv::Mat rot;
       cv::warpAffine(m, rot, affine, m.size(), cv::INTER_CUBIC);
-      cv::resize(rot, rot, cv::Size(s, w));
       char buf[LED_COUNT * 3] = { 0 };
       for(int y = 0; y < LED_COUNT; ++y){
         int y0 = y < LED_COUNT / 2 ? y : y + LED_COUNT / 2 + CENTER_AREA_COUNT;
