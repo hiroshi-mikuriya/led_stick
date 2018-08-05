@@ -21,7 +21,10 @@ namespace
       cv::warpAffine(m, rot, affine, m.size(), cv::INTER_CUBIC);
       char buf[LED_COUNT * 3] = { 0 };
       for(int y = 0; y < LED_COUNT; ++y){
-        int y0 = y < LED_COUNT / 2 ? y : y + LED_COUNT / 2 + CENTER_AREA_COUNT;
+        int y0 = y;
+        if(LED_COUNT / 2 <= y){
+          y0 += CENTER_AREA_COUNT;
+        }
         auto const bgr = rot.at<cv::Vec3b>(y0, rot.cols / 2);
         buf[y * 3] = bgr[2] / 16;
         buf[y * 3 + 1] = bgr[1] / 16;
