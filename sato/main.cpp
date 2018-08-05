@@ -39,7 +39,7 @@ namespace
       short a[3] = { 0 };
       get_accel(a);
       double th = std::atan2(a[1], a[0]);
-      int line = static_cast<int>(0 < th ? th / CV_PI * 180 : -th / CV_PI * 360 - 180);
+      int line = static_cast<int>(0 < th ? th / CV_PI * 180 : th / CV_PI * 180 + 360);
       show_line(line);
       sleep(1);
     }
