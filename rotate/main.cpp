@@ -19,6 +19,7 @@ int main(int argc, const char * argv[])
       cv::Mat affine = cv::getRotationMatrix2D(center, deg, scale);
       cv::Mat rot;
       cv::warpAffine(img, rot, affine, img.size(), cv::INTER_CUBIC);
+      std::cout << deg << std::endl;
       cv::imshow("rotate", rot);
       cv::waitKey(10);
     }
