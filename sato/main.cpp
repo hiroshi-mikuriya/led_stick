@@ -42,7 +42,6 @@ namespace
       double th = std::atan2(a[1], a[0]);
       int angle = static_cast<int>(0 < th ? th / CV_PI * 180 : th / CV_PI * 180 + 360);
       show_line(angle / 2);
-      sleep(1);
     }
   }
 }
