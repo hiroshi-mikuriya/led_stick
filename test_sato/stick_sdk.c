@@ -9,22 +9,7 @@
 
 static int g_sdk_is_initialized = 0;
 
-/*
-00 4G
-01 4R
-02 3R
-10 4G
-11 3B
-12 3G
-20 2G
-21 2R
-22 1R
-30 2B
-31 1B
-32 1G
-33 4Y
-*/
-static const int g_table[] = { 10, 9, 8, 5, 4, 11, 0, 7, 6, 3, 2, 1 };
+static const int g_table[] = { 10, 9, 6, 11, 8, 7, 4, 3, 0, 5, 2, 1 };
 
 static void write_spi(char * d, unsigned int len, unsigned char cs)
 {
