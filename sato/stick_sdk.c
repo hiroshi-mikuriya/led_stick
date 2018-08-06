@@ -25,7 +25,6 @@ static void write_i2c(unsigned char slave, unsigned char cmd, unsigned char d)
   if(g_sdk_is_initialized){
     char buf[] = { cmd, d };
     bcm2835_i2c_setSlaveAddress(slave);
-    bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_626);
     bcm2835_i2c_write(buf, sizeof(buf));
   }
 }
@@ -34,7 +33,6 @@ static void read_i2c(unsigned char slave, unsigned char cmd, char * buffer, int 
 {
   if(g_sdk_is_initialized){
     bcm2835_i2c_setSlaveAddress(slave);
-    bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_626);
     bcm2835_i2c_write((char*)&cmd, sizeof(cmd));
     bcm2835_i2c_read(buffer, len);
   }
@@ -47,6 +45,7 @@ int init_sdk(void)
     bcm2835_gpio_fsel(GPIO_BUTTON, BCM2835_GPIO_FSEL_INPT);
     bcm2835_gpio_set_pud(GPIO_BUTTON, BCM2835_GPIO_PUD_UP);
     bcm2835_i2c_begin();
+    bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_626);
     bcm2835_spi_begin();
     bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);
     bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);
