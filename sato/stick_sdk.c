@@ -14,14 +14,10 @@ static const int g_table[] = { 8, 11, 10, 7, 6, 9, 2, 5, 4, 1, 0, 3 };
 static void write_spi(char * d, unsigned int len, unsigned char cs)
 {
     if(g_sdk_is_initialized){
-        bcm2835_spi_begin();
-        bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);
-        bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);
-        bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_128);
         bcm2835_spi_chipSelect(cs);
-        bcm2835_spi_setChipSelectPolarity(cs, 0); // LOW;
+        bcm2835_spi_setChipSelectPolarity(cs, 0); // LOW
         bcm2835_spi_writenb(d, len);
-        bcm2835_spi_end();
+        bcm2835_spi_setChipSelectPolarity(cs, 1); // HI
     }
 }
 
@@ -29,24 +25,20 @@ static void write_i2c(unsigned char slave, unsigned char cmd, unsigned char d)
 {
     if(g_sdk_is_initialized){
         char buf[] = { cmd, d };
-        bcm2835_i2c_begin();
         bcm2835_i2c_setSlaveAddress(slave);
         bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_626);
         bcm2835_i2c_write(buf, sizeof(buf));
-        bcm2835_i2c_end();
     }
 }
 
 static void read_i2c(unsigned char slave, unsigned char cmd, char * buffer, int len)
 {
     if(g_sdk_is_initialized){
-        bcm2835_i2c_begin();
         bcm2835_i2c_setSlaveAddress(slave);
         bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_626);
         char c[] = { cmd };
         bcm2835_i2c_write(c, sizeof(c));
         bcm2835_i2c_read(buffer, len);
-        bcm2835_i2c_end();
     }
 }
 
@@ -56,6 +48,11 @@ int init_sdk(void)
     if(g_sdk_is_initialized){
         bcm2835_gpio_fsel(GPIO_BUTTON, BCM2835_GPIO_FSEL_INPT);
         bcm2835_gpio_set_pud(GPIO_BUTTON, BCM2835_GPIO_PUD_UP);
+        bcm2835_i2c_begin();
+        bcm2835_spi_begin();
+        bcm2835_spi_setBitOrder(BCM2835_SPI_BIT_ORDER_MSBFIRST);
+        bcm2835_spi_setDataMode(BCM2835_SPI_MODE0);
+        bcm2835_spi_setClockDivider(BCM2835_SPI_CLOCK_DIVIDER_128);
         write_i2c(0x68, REG_PWR_MGMT_1, 0x80); // reset register
         write_i2c(0x68, REG_PWR_MGMT_1, 0x00); // clear power management
         write_i2c(0x68, REG_INT_PIN_CFG, 0x02); // enable AK8963 using I2C
