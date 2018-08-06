@@ -35,8 +35,7 @@ static void read_i2c(unsigned char slave, unsigned char cmd, char * buffer, int 
   if(g_sdk_is_initialized){
     bcm2835_i2c_setSlaveAddress(slave);
     bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_626);
-    char c[] = { cmd };
-    bcm2835_i2c_write(c, sizeof(c));
+    bcm2835_i2c_write(&cmd, sizeof(cmd));
     bcm2835_i2c_read(buffer, len);
   }
 }
