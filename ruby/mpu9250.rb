@@ -21,7 +21,7 @@ end
 def read(addr, len, cs)
   BCM.bcm2835_spi_chipSelect(cs)
   BCM.bcm2835_spi_setChipSelectPolarity(cs, 0)
-  a = [addr | 0x80].flatten.pack('C*')
+  a = [addr | 0x80].pack('C*')
   BCM.bcm2835_spi_writenb(a, a.size)
   res = ([0] * len).pack('C*')
   BCM.bcm2835_spi_transfern(res, res.size)
