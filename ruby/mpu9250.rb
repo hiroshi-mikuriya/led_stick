@@ -13,7 +13,7 @@ BCM.bcm2835_spi_setClockDivider(256) # 256 = 1.024us = 976.5625kHz
 def write(addr, ary, cs)
   BCM.bcm2835_spi_chipSelect(cs)
   BCM.bcm2835_spi_setChipSelectPolarity(cs, 0)
-  a = [addr | 0x80, ary].flatten.pack('C*')
+  a = [addr, ary].flatten.pack('C*')
   BCM.bcm2835_spi_writenb(a, a.size)
   BCM.bcm2835_spi_setChipSelectPolarity(cs, 1)
 end
