@@ -7,7 +7,7 @@ end
 
 BCM.bcm2835_spi_begin
 BCM.bcm2835_spi_setBitOrder(1) # MSB First
-BCM.bcm2835_spi_setDataMode(0) # CPOL = 1, CPHA = 1
+BCM.bcm2835_spi_setDataMode(0) # CPOL = 0, CPHA = 0
 BCM.bcm2835_spi_setClockDivider(256) # 256 = 1.024us = 976.5625kHz
 
 def write(addr, ary, cs)
@@ -29,15 +29,15 @@ def read(addr, len, cs)
   res
 end
 
-cs = 1
+cs = 1 # 0 or 1
 write(0x6B, [0x00], cs) # reset register
 write(0x6B, [0x80], cs) # clear power management
 write(0x37, [0x02], cs) # enable AK8963 using I2C
 write(0x1C, [0x08], cs) # mod acceleration sensor range.
 
-p read(0x75, 1, cs).unpack('C*')
+p read(0x75, 1, cs).unpack('C*') # read WHO AM I
 
 loop do
-  p read(0x3B, 6, cs).unpack('s*')
+  p read(0x3B, 6, cs).unpack('s*') # read ACCEL(X, Y, Z)
   sleep(0.2)
 end
