@@ -1,3 +1,5 @@
+# register map : https://cdn.sparkfun.com/assets/learn_tutorials/5/5/0/MPU-9250-Register-Map.pdf
+
 require './bcm2835'
 
 if BCM.bcm2835_init.zero?
