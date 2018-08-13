@@ -29,15 +29,32 @@ def read(addr, len, cs)
   res
 end
 
-cs = 1
-write(0x6B, [0x00], cs) # reset register
-write(0x6B, [0x80], cs) # clear power management
-write(0x37, [0x02], cs) # enable AK8963 using I2C
-write(0x1C, [0x08], cs) # mod acceleration sensor range.
+def writeb(addr, data, cs)
+  BCM.bcm2835_spi_chipSelect(cs)
+  BCM.bcm2835_spi_setChipSelectPolarity(cs, 0)
+  BCM.bcm2835_spi_transfer(addr | 0x80)
+  BCM.bcm2835_spi_transfer(data)
+  BCM.bcm2835_spi_setChipSelectPolarity(cs, 1)
+end
 
-p read(0x75, 1, cs).unpack('C*')
+def readb(addr, cs)
+  BCM.bcm2835_spi_chipSelect(cs)
+  BCM.bcm2835_spi_setChipSelectPolarity(cs, 0)
+  BCM.bcm2835_spi_transfer(addr | 0x80)
+  res = BCM.bcm2835_spi_transfer(0x00)
+  BCM.bcm2835_spi_setChipSelectPolarity(cs, 1)
+  res
+end
+
+p readb(0x75, cs)
+
+cs = 1
+writeb(0x6B, 0x00, cs) # reset register
+writeb(0x6B, 0x80, cs) # clear power management
+write(0x37, 0x02, cs) # enable AK8963 using I2C
+write(0x1C, 0x08, cs) # mod acceleration sensor range.
 
 loop do
-  p read(0x3B, 6, cs).unpack('s*')
+  p Array.new(6) { |i| readb(0x3B + i, cs) }
   sleep(0.2)
 end
