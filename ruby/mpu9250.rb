@@ -7,7 +7,7 @@ end
 
 BCM.bcm2835_spi_begin
 BCM.bcm2835_spi_setBitOrder(1) # MSB First
-BCM.bcm2835_spi_setDataMode(0) # CPOL = 1, CPHA = 1
+BCM.bcm2835_spi_setDataMode(0) # CPOL = 0, CPHA = 0
 BCM.bcm2835_spi_setClockDivider(256) # 256 = 1.024us = 976.5625kHz
 
 def write(addr, ary, cs)
@@ -46,9 +46,10 @@ def readb(addr, cs)
   res
 end
 
+cs = 1
+
 p readb(0x75, cs)
 
-cs = 1
 writeb(0x6B, 0x00, cs) # reset register
 writeb(0x6B, 0x80, cs) # clear power management
 write(0x37, 0x02, cs) # enable AK8963 using I2C
