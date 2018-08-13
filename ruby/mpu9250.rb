@@ -48,7 +48,7 @@ def readb(addr, cs)
   res
 end
 
-cs = 1
+cs = 0
 
 p readb(0x75, cs)
 
