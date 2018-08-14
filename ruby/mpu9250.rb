@@ -34,7 +34,7 @@ end
 def writeb(addr, data, cs)
   BCM.bcm2835_spi_chipSelect(cs)
   BCM.bcm2835_spi_setChipSelectPolarity(cs, 0)
-  BCM.bcm2835_spi_transfer(addr | 0x80)
+  BCM.bcm2835_spi_transfer(addr)
   BCM.bcm2835_spi_transfer(data)
   BCM.bcm2835_spi_setChipSelectPolarity(cs, 1)
 end
@@ -58,6 +58,6 @@ write(0x37, 0x02, cs) # enable AK8963 using I2C
 write(0x1C, 0x08, cs) # mod acceleration sensor range.
 
 loop do
-  p Array.new(6) { |i| readb(0x3B + i, cs) }
+  p Array.new(6) { |i| readb(0x3B + i, cs) }.each_slice(2).to_a.map { |a| format('%02X%02X', a[0], a[1]) }
   sleep(0.2)
 end
