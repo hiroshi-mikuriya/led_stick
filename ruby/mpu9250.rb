@@ -9,8 +9,9 @@ end
 
 BCM.bcm2835_spi_begin
 BCM.bcm2835_spi_setBitOrder(1) # MSB First
-BCM.bcm2835_spi_setDataMode(0) # CPOL = 0, CPHA = 0
-BCM.bcm2835_spi_setClockDivider(256) # 256 = 1.024us = 976.5625kHz
+# BCM.bcm2835_spi_setDataMode(0) # CPOL = 0, CPHA = 0
+BCM.bcm2835_spi_setDataMode(3) # CPOL = 1, CPHA = 1
+BCM.bcm2835_spi_setClockDivider(512) # 512 = 488.28125kHz on Rpi2, 781.25kHz on RPI3
 
 def write(addr, ary, cs)
   BCM.bcm2835_spi_chipSelect(cs)
@@ -49,6 +50,8 @@ def readb(addr, cs)
 end
 
 cs = 0
+
+writeb(0x6A, 0x18, cs) # I2C_IF _DIS
 
 p readb(0x75, cs)
 
