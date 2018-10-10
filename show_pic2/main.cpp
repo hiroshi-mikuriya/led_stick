@@ -4,7 +4,7 @@
 
 namespace
 {
-  std::vector<std::string> const images{ "android.jpg", "doraemon.png", "dorami.jpg", "makey.jpg", "pikachu.png", "stitch.jpg", "xjapan.jpg" };
+  std::vector<std::string> const images{ "nikochan.png", "dev_r.png", "dev_g.png", "dev_b.png", "tech_r.png", "tech_g.png", "tech_b.png" };
 
   int s_select = 0;
   
