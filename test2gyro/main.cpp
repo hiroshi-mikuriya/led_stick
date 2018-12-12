@@ -1,5 +1,6 @@
 #include <bcm2835.h>
 #include <iostream>
+#include <cunistd>
 #include "mpu9250reg.h"
 
 namespace
@@ -62,7 +63,7 @@ int main()
             std::cout << a[i];
         }
         std::cout << std::endl;
-        asleep(100);
+        usleep(100);
     }
     return 0;
 }
