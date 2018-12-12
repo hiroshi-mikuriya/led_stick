@@ -33,6 +33,11 @@ namespace
     {
         get_3params(accel, slave, REG_ACCEL_XOUT_H);
     }
+
+    void get_gyro(unsigned char slave, short * accel)
+    {
+        get_3params(accel, slave, REG_GYRO_XOUT_H);
+    }
 }
 
 int main()
@@ -45,13 +50,19 @@ int main()
     bcm2835_i2c_setClockDivider(BCM2835_I2C_CLOCK_DIVIDER_626);
     for(;;){
         short a[6] = { 0 };
+#if 1
         get_accel(0x68, a);
         get_accel(0x69, a + 3);
+#else
+        get_gyro(0x68, a);
+        get_gyro(0x69, a + 3);
+#endif
         for(int i = 0; i < 6; ++i){
             std::cout.width(8);
             std::cout << a[i];
         }
         std::cout << std::endl;
+        asleep(100);
     }
     return 0;
 }
