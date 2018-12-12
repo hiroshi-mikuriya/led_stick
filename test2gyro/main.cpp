@@ -59,7 +59,7 @@ int main()
         get_gyro(0x68, a);
         get_gyro(0x69, a + 3);
 #endif
-        int d = 0;
+        double d = 0;
         for(int i = 0; i < 3; ++i){
             int df = a[i] - a[i + 3];
             d += df * df;
@@ -68,7 +68,8 @@ int main()
             std::cout.width(8);
             std::cout << a[i];
         }
-        std::cout << std::sqrt(d) << std::endl;
+        std::cout.width(10);
+        std::cout << static_cast<int>(std::sqrt(d)) << std::endl;
         usleep(100 * 1000);
     }
     return 0;
