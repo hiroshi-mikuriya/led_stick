@@ -1,6 +1,7 @@
 #include <bcm2835.h>
 #include <iostream>
 #include <unistd.h>
+#include <cmath>
 #include "mpu9250reg.h"
 
 namespace
@@ -58,11 +59,16 @@ int main()
         get_gyro(0x68, a);
         get_gyro(0x69, a + 3);
 #endif
+        int d = 0;
+        for(int i = 0; i < 3; ++i){
+            int df = a[i] - a[i + 3];
+            d += df * df;
+        }
         for(int i = 0; i < 6; ++i){
             std::cout.width(8);
             std::cout << a[i];
         }
-        std::cout << std::endl;
+        std::cout << std::sqrt(d) << std::endl;
         usleep(100 * 1000);
     }
     return 0;
