@@ -1,5 +1,5 @@
-CXX	   := gcc
-CXXFLAGS  := -Wall -std=c99 -fPIC
+CXX			:= gcc
+CXXFLAGS	:= -Wall -std=c99 -fPIC
 
 TARGET		:= libstick.so
 HEADER		:= stick.h
