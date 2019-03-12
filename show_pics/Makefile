@@ -21,7 +21,7 @@ $(TARGET): $(OBJS)
 
 .PHONY: clean
 clean:
-	$(RM) -f $(TARGET) *.o
+	$(RM) $(TARGET) *.o
 
 .cpp.o:
 	$(CXX) -c $(CXXFLAGS) $(INCLUDES) $<
