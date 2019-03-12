@@ -11,24 +11,17 @@
 #define BLOCK_SIZE 4096
 #define REG_BASE 0x3F200000
 #define GPIO_BASE (REG_BASE+0x200000)
-#define FSEL0_INDEX 0
-#define FSEL2_INDEX 0x02
-#define SET0_INDEX 0x07
-#define CLR0_INDEX 0x0A
-#define GPF_OUTPUT 0x01
 
 static volatile uint32_t * s_gpio_base = NULL;
 
-static void function_set(int pin, uint32_t func)
+static void configure (int pin, int mode)
 {
-	int index = FSEL2_INDEX;
-	uint32_t mask = ~(0x7 << ((pin % 10) * 3));
-	uint32_t masked = (s_gpio_base[index] & mask);
-	uint32_t added = (func & 0x7) << ((pin % 10) * 3);
-	uint32_t final = masked | added;
-	s_gpio_base[index] = final;
+    //  レジスタ番号（index）と３ビットマスクを生成
+    int index = pin / 10;
+    unsigned int mask = ~(7 << ((pin % 10) * 3));
+    //  GPFSEL0/1 の該当する FSEL (3bit) のみを書き換え
+    s_gpio_base[index] = (s_gpio_base[index] & mask) | ((mode & 7) << ((pin % 10) * 3));
 }
-
 int gpio_init(void)
 {
 	gpio_deinit();
@@ -68,10 +61,6 @@ void gpio_write(uint32_t pin, uint32_t pol)
 
 uint32_t gpio_read(uint32_t pin)
 {
-	//function_set(pin, 0);
-	for (int i = 0; i < 16; ++i) {
-		printf("%2d: %08X\n", i, s_gpio_base[i]);
-	}
-	puts("");
-	return 0;
+	configure(pin, 0);
+	return (s_gpio_base[13] & (0x1 << pin)) != 0;
 }
