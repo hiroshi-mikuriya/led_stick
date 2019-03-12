@@ -15,6 +15,10 @@ static uint8_t s_dev_addr;
 
 int i2c_init(uint8_t dev_addr)
 {
+    if (s_fd != 0 && close(s_fd) < 0) {
+        fprintf(stderr, "error close %s\n", strerror(errno));
+        return errno;
+    }
     const char * dev = "/dev/i2c-1";
     s_fd = open(dev, O_RDWR);
     if (s_fd < 0) {
@@ -35,6 +39,7 @@ int i2c_deinit(void)
         fprintf(stderr, "error close %s\n", strerror(errno));
         return errno;
     }
+    s_fd = 0;
     return 0;
 }
 
