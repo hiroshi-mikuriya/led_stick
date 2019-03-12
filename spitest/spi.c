@@ -13,7 +13,7 @@ static int s_fd;
 
 int spi_init(void)
 {
-    const char * dev = "/dev/spidev0.1";
+    const char * dev = "/dev/spidev0.0";
     s_fd = open(dev, O_RDWR);
     if (s_fd < 0) {
         fprintf(stderr, "error open(%s) %s\n", dev, strerror(errno));
