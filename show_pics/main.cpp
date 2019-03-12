@@ -8,10 +8,16 @@ namespace
 {
 	const int IMG_WIDTH = COUNT_OF_LINES / 10;
 
-	void write(cv::Mat m, int offset)
+	void write(const char * file, int n)
 	{
-		cv::Mat img;
+		cv::Mat img = cv::imread(file, 1);
+		if (img.empty()) {
+			std::cerr << "failed to open " << file << std::endl;
+			std::exit(1);
+		}
+		cv::flip(img, img, 1);
 		cv::resize(m, img, cv::Size(IMG_WIDTH, COUNT_OF_LED));
+		int offset = n * IMG_WIDTH;
 		for (int x = 0; x < img.cols; ++x) {
 			uint8_t a[COUNT_OF_LED * 3] = { 0 };
 			for (int y = 0; y < img.rows; ++y) {
@@ -52,16 +58,8 @@ int main(int argc, const char * argv[])
 	if (stop_led_demo() != 0)
 		return 1;
 	std::cerr << "writing image..." << std::endl;
-	for (int i = 0; i < argc - 1; ++i) {
-		const char * file = argv[i + 1];
-		cv::Mat img = cv::imread(file, 1);
-		if (img.empty()) {
-			std::cerr << "failed to open " << file << std::endl;
-			return 3;
-		}
-		cv::flip(img, img, 1);
-		write(img, i * IMG_WIDTH);
-	}
+	for (int i = 0; i < argc - 1; ++i)
+		write(argv[i + 1], i);
 	std::cerr << "complete!" << std::endl;
 	show(argc - 1);
 	return 0;
