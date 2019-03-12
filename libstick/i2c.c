@@ -10,7 +10,7 @@
 #include <errno.h>
 #include <stdio.h>
 
-static int s_fd;
+static int s_fd = 0;
 static uint8_t s_dev_addr;
 
 int i2c_init(uint8_t dev_addr)

@@ -9,7 +9,7 @@
 #include <errno.h>
 #include <stdio.h>
 
-static int s_fd;
+static int s_fd = 0;
 
 int spi_init(void)
 {
