@@ -57,10 +57,11 @@ int main(int argc, const char * argv[])
 		return 1;
 	if (stop_led_demo() != 0)
 		return 1;
+	int nimgs = argc - 1;
 	std::cerr << "writing image..." << std::endl;
-	for (int i = 0; i < argc - 1; ++i)
+	for (int i = 0; i < nimgs; ++i)
 		write(argv[i + 1], i);
 	std::cerr << "complete!" << std::endl;
-	show(argc - 1);
+	show(nimgs);
 	return 0;
 }
