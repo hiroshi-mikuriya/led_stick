@@ -1,9 +1,9 @@
 CXX	   := gcc
 CXXFLAGS  := -Wall -std=c99
 
-TARGET	:= mpu6050test
+TARGET	:= spitest
 PROJ_ROOT := $(realpath .)
-SRCS	  := main.c i2c.c mpu6050.c
+SRCS	  := main.c spi.c
 OBJS	  := $(SRCS:.c=.o)
 
 ### Rules ######################################################################
