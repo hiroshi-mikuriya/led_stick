@@ -39,7 +39,7 @@ int spi_write(uint8_t * buf, uint16_t len, int cs)
             .tx_buf = (unsigned long)buf,
             //.rx_buf,
             .len = len,
-            //.speed_hz,
+            .speed_hz = 2 * 1000 * 1000,
             //.delay_usecs
             .bits_per_word = 8,
             .cs_change = cs,
