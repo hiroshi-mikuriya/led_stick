@@ -2,6 +2,9 @@
 
 #include <stdint.h>
 
+#define COUNT_OF_LED    32
+#define COUNT_OF_LINES  1364
+
 #ifdef __cplusplus
 extern "C" {
 #endif /* __cplusplus */
