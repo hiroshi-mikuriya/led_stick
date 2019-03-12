@@ -33,23 +33,29 @@ int spi_deinit(void)
 
 int spi_write(uint8_t * buf, uint16_t len, int cs)
 {
-    int res = write(s_fd, buf, len);
-    if (res < 0) {
-        fprintf(stderr, "error write %s\n", strerror(errno));
+#define NUM_OF_MSG   1
+    struct spi_ioc_transfer mesgs[NUM_OF_MSG] = {
+        {
+            .tx_buf = (unsigned long)buf,
+            //.rx_buf,
+            .len = len,
+            //.speed_hz,
+            //.delay_usecs
+            .bits_per_word = 8,
+            .cs_change = cs,
+            //.tx_nbits,
+            //.rx_nbits,
+            //.pad,
+        }
+    };
+    if (ioctl(s_fd, SPI_IOC_MESSAGE(NUM_OF_MSG), &mesgs) < 0) {
+        fprintf(stderr, "error ioctl(SPI_IOC_MAGIC) %s\n", strerror(errno));
         return errno;
-    }
-    if (res != len) {
-        fprintf(stderr, "error write size %d != %d\n", res, len);
-        return -1;
     }
     return 0;
 }
 
 int spi_read(uint8_t * buf, uint16_t len, int cs)
 {
-    if (read(s_fd, buf, len) < 0) {
-        fprintf(stderr, "error read %s\n", strerror(errno));
-        return errno;
-    }
-    return 0;
+    return -1;
 }
