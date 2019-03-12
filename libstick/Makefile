@@ -4,7 +4,7 @@ CXXFLAGS	:= -Wall -std=c99 -fPIC
 TARGET		:= libstick.so
 HEADER		:= stick.h
 PROJ_ROOT	:= $(realpath .)
-SRCS		:= stick.c spi.c i2c.c
+SRCS		:= stick.c spi.c i2c.c gpio.c
 OBJS		:= $(SRCS:.c=.o)
 
 ### Rules ######################################################################
