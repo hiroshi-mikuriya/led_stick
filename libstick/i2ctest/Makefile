@@ -3,7 +3,7 @@ CXXFLAGS	:= -Wall -std=c99
 
 TARGET		:= i2ctest
 PROJ_ROOT	:= $(realpath .)
-SRCS		:= main.c
+SRCS		:= main.c mpu6050.c
 OBJS		:= $(SRCS:.c=.o)
 LIBS		:= -lstick
 

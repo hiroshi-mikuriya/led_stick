@@ -1,6 +1,6 @@
 #include "mpu6050.h"
-#include "mpu6050reg.h"
-#include "i2c.h"
+#include "../mpu6050reg.h"
+#include "../i2c.h"
 
 #include <unistd.h> // usleep
 
