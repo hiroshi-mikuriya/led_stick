@@ -1,0 +1,15 @@
+[Unit]
+Description = show pics
+After = rc-local.service
+
+[Service]
+Type = simple
+WorkingDirectory = /home/pi/led_stick/show_pics
+ExecStart = /home/pi/led_stick/show_pics/show_pics ../images/doraemon.png
+StandardOutput = journal
+StandardError = journal
+Restart = on-failure
+RestartSec = 3s
+
+[Install]
+WantedBy = multi-user.target
