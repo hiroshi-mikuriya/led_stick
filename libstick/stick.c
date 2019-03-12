@@ -1,6 +1,7 @@
 #include "stick.h"
 #include "i2c.h"
 #include "spi.h"
+#include "gpio.h"
 #include "mpu6050reg.h"
 
 #define MPU6050_SLAVE   0x68
@@ -15,6 +16,9 @@ int stick_init(void)
 	res = spi_init();
 	if (res != 0)
 		goto error;
+	res = gpio_init();
+	if (res != 0)
+		goto error;
 	uint8_t v[] = { PWR_MGMT_1, 0 };
 	res = i2c_write(v, sizeof(v));
 	if (res != 0)
@@ -23,6 +27,7 @@ int stick_init(void)
 error:
 	i2c_deinit();
 	spi_deinit();
+	gpio_deinit();
 	return res;
 }
 
@@ -30,10 +35,13 @@ int stick_deinit(void)
 {
 	int res0 = i2c_deinit();
 	int res1 = spi_deinit();
+	int res2 = gpio_deinit();
 	if (res0 != 0)
 		return res0;
 	if (res1 != 0)
 		return res1;
+	if (res2 != 0)
+		return res2;
 	return 0;
 }
 
@@ -92,7 +100,7 @@ int get_gyro(short * gyro)
 	return 0;
 }
 
-int get_button(uint8_t * button)
+int get_button()
 {
-	return -1;
+	return gpio_read(5);
 }

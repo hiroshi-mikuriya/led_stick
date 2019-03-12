@@ -50,10 +50,9 @@ int get_accel(short * accel);
 int get_gyro(short * gyro);
 
 /**
- * @param[out] button
- * @return 0:成功 0以外:失敗
+ * @return Level (0 or 1)
  */
-int get_button(uint8_t * button);
+int get_button(void);
 
 #ifdef __cplusplus
 }
