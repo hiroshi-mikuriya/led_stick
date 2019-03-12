@@ -1,11 +1,11 @@
 CXX			:= gcc
 CXXFLAGS	:= -Wall -std=c99
 
-TARGET		:= mpu6050test
+TARGET		:= i2ctest
 PROJ_ROOT	:= $(realpath .)
-SRCS		:= main.c mpu6050.c ../i2c.c
-INCLUDES	:= ../
+SRCS		:= main.c
 OBJS		:= $(SRCS:.c=.o)
+LIBS		:= -lstick
 
 ### Rules ######################################################################
 
@@ -19,7 +19,7 @@ make: $(TARGET)
 	$(CXX) -c $(CXXFLAGS) $(INCLUDES) $<
 
 $(TARGET): $(OBJS)
-	$(CXX) -o $@ $(OBJS)
+	$(CXX) -o $@ $(OBJS) $(LIBS)
 
 .PHONY: clean
 clean:

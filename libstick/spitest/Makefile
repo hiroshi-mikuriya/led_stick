@@ -3,9 +3,9 @@ CXXFLAGS	:= -Wall -std=c99
 
 TARGET		:= spitest
 PROJ_ROOT	:= $(realpath .)
-SRCS		:= main.c ../spi.c
-INCLUDES	:= ../
+SRCS		:= main.c
 OBJS		:= $(SRCS:.c=.o)
+LIBS		:= -lstick
 
 ### Rules ######################################################################
 
@@ -19,7 +19,7 @@ make: $(TARGET)
 	$(CXX) -c $(CXXFLAGS) $(INCLUDES) $<
 
 $(TARGET): $(OBJS)
-	$(CXX) -o $@ $(OBJS)
+	$(CXX) -o $@ $(OBJS) $(LIBS)
 
 .PHONY: clean
 clean:
