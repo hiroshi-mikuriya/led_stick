@@ -16,7 +16,7 @@ $ sudo ldconfig
 
 # Test
 
-SPI test
+SPIテスト（LED消灯・点灯を周期的に実施）
 
 ```
 $ cd spitest
@@ -24,10 +24,18 @@ $ make
 $ ./spitest
 ```
 
-I2C test
+I2Cテスト（MPU6050のレジスタを定期的に読み出す）
 
 ```
 $ cd i2ctest
 $ make
 $ ./i2ctest
+```
+
+GPIOテスト（ボタンのGPIOレベルを定期的に読み出す）
+
+```
+$ cd gpiotest
+$ make
+$ ./gpiotest
 ```
