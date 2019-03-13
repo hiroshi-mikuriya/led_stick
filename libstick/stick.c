@@ -4,8 +4,9 @@
 #include "gpio.h"
 #include "mpu6050reg.h"
 
-#define MPU6050_SLAVE   0x68
-#define SPI_WRITE	   0x02
+#define MPU6050_SLAVE	0x68
+#define SPI_WRITE	0x02
+#define BUTTON_PIN	0x05
 
 int stick_init(void)
 {
@@ -102,5 +103,5 @@ int get_gyro(short * gyro)
 
 int get_button()
 {
-	return gpio_read(5);
+	return gpio_read(BUTTON_PIN);
 }
