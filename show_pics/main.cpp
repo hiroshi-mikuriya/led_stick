@@ -16,7 +16,7 @@ namespace
 			std::exit(1);
 		}
 		cv::flip(img, img, 1);
-		cv::resize(m, img, cv::Size(IMG_WIDTH, COUNT_OF_LED));
+		cv::resize(img, img, cv::Size(IMG_WIDTH, COUNT_OF_LED));
 		int offset = n * IMG_WIDTH;
 		for (int x = 0; x < img.cols; ++x) {
 			uint8_t a[COUNT_OF_LED * 3] = { 0 };
@@ -31,15 +31,18 @@ namespace
 		}
 	}
 
-	void show(int count)
+	void show(int nimgs)
 	{
-		int n = 0; // TODO: ボタン押下でoffsetを更新する。(0 から count - 1 まで)
-		for (;;) {
+		for (int n = 0, btn0 = 0;;) {
+			int btn1 = get_button();
+			if (btn0 == 1 && btn1 == 0) // TODO: チャタリング対策必要？
+				n = (n + 1) % nimgs;
+			btn0 = btn1;
 			int offset = n * IMG_WIDTH;
-			short a[3] = { 0 };
-			if (get_accel(a) != 0)
+			short accel[3] = { 0 };
+			if (get_accel(accel) != 0)
 				std::exit(1);
-			int line = (a[1] + 0x8000) * IMG_WIDTH / 0x10000;
+			int line = (accel[1] + 0x8000) * IMG_WIDTH / 0x10000;
 			if (show_line(offset + line) != 0)
 				std::exit(1);
 			usleep(1000);
@@ -49,15 +52,13 @@ namespace
 
 int main(int argc, const char * argv[])
 {
-	if (argc < 2) {
+	const int nimgs = argc - 1;
+	if (nimgs <= 0) {
 		std::cerr << "input image file path." << std::endl;
 		return 1;
 	}
-	if (stick_init() != 0)
+	if (stick_init() != 0 || stop_led_demo() != 0)
 		return 1;
-	if (stop_led_demo() != 0)
-		return 1;
-	int nimgs = argc - 1;
 	std::cerr << "writing image..." << std::endl;
 	for (int i = 0; i < nimgs; ++i)
 		write(argv[i + 1], i);

@@ -4,8 +4,8 @@ After = rc-local.service
 
 [Service]
 Type = simple
-WorkingDirectory = /home/pi/led_stick/show_pics
-ExecStart = /home/pi/led_stick/show_pics/show_pics ../images/doraemon.png
+WorkingDirectory = /home/pi/led_stick/images
+ExecStart = /home/pi/led_stick/show_pics/show_pics doraemon.png dorami.jpg makey.jpg pikachu.png android.jpg stitch.jpg
 StandardOutput = journal
 StandardError = journal
 Restart = on-failure
