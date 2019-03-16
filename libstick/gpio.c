@@ -21,8 +21,15 @@
 #define GPPUD			37
 #define GPPUDCLK0		38
 
+// mode定義
 #define GPIO_INPUT		0
 #define GPIO_OUTPUT		1
+#define GPIO_ALT0		4
+#define GPIO_ALT1		5
+#define GPIO_ALT2		6
+#define GPIO_ALT3		7
+#define GPIO_ALT4		3
+#define GPIO_ALT5		2
 
 static volatile uint32_t * s_gpio_base = NULL;
 
