@@ -12,6 +12,11 @@
 #define GPIO_ALT4		3
 #define GPIO_ALT5		2
 
+// pull定義
+#define GPIO_PULLNONE   0
+#define GPIO_PULLDOWN   1
+#define GPIO_PULLUP     2
+
 /**
  * @return 0:成功 0以外:失敗
  */
@@ -27,6 +32,12 @@ int gpio_deinit(void);
  * @param [in] mode
  */
 void gpio_configure(int pin, int mode);
+
+/**
+ * @param [in] pin
+ * @param [in] pull
+ */
+void gpio_set_pull(int pin, int pull);
 
 /**
  * @param [in] pin

@@ -63,6 +63,17 @@ void gpio_configure(int pin, int mode)
     s_gpio_base[index] = (s_gpio_base[index] & mask) | ((mode & 0b0111) << shift);
 }
 
+void gpio_set_pull(int pin, int pull)
+{
+    s_gpio_base[GPPUD] = pull & 0b0011;
+    usleep(1);
+    s_gpio_base[GPPUDCLK0] = 1 << pin; // ピンにクロックを供給
+    usleep(1);
+	// プルモード・クロック状態をクリア
+    s_gpio_base[GPPUD] = 0;
+    s_gpio_base[GPPUDCLK0] = 0;
+}
+
 void gpio_write(uint32_t pin, uint32_t pol)
 {
 	int reg = (pol == 0)? GPCLR0 : GPSET0;
