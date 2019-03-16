@@ -11,8 +11,15 @@
 #include <stdint-gcc.h>
 
 #define BLOCK_SIZE		4096
-#define REG_BASE		0x3F200000
-#define GPIO_BASE		(REG_BASE+0x200000)
+#define REG_BASE		0x3F000000
+#define GPIO_BASE		(REG_BASE + 0x200000)
+
+#define GPSEL0			0
+#define GPSET0			7
+#define GPCLR0			10
+#define GPLEV0			13
+#define GPPUD			37
+#define GPPUDCLK0		38
 
 #define GPIO_INPUT		0
 #define GPIO_OUTPUT		1
@@ -61,15 +68,12 @@ static void configure(int pin, int mode)
 void gpio_write(uint32_t pin, uint32_t pol)
 {
 	configure(pin, GPIO_OUTPUT);
-	if (pol == 0) {
-		s_gpio_base[10] |= 1 << pin;
-	} else {
-		s_gpio_base[7] |= 1 << pin;
-	}
+	int reg = (pol == 0)? GPCLR0 : GPSET0;
+	s_gpio_base[reg] |= 1 << pin;
 }
 
 uint32_t gpio_read(uint32_t pin)
 {
 	configure(pin, GPIO_INPUT);
-	return (s_gpio_base[13] & (1 << pin)) != 0;
+	return (s_gpio_base[GPLEV0] & (1 << pin)) != 0;
 }
