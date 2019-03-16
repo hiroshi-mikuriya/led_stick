@@ -44,7 +44,7 @@ int spi_init(void)
 		goto error;
 	}
 	printf("SPI settings\nMode : %u\nLSB First : %u\nBitsPerWord : %u\nMaxSpeedHz : %u\nModeField : %u\n",
-	      mode, bitjust, word, speed, mode32);
+		   mode, bitjust, word, speed, mode32);
 	return 0;
 error:
 	spi_deinit();
