@@ -17,11 +17,12 @@ int i2c_init(uint8_t dev_addr)
 {
 	i2c_deinit();
 	const char * dev = "/dev/i2c-1";
-	s_fd = open(dev, O_RDWR);
-	if (s_fd < 0) {
+	int res = open(dev, O_RDWR);
+	if (res < 0) {
 		fprintf(stderr, "error open(%s) %s\n", dev, strerror(errno));
 		return errno;
 	}
+	s_fd = res;
 	s_dev_addr = dev_addr;
 	if (ioctl(s_fd, I2C_SLAVE, s_dev_addr) < 0) {
 		fprintf(stderr, "error ioctl(I2C_SLAVE) %s\n", strerror(errno));
@@ -56,9 +57,14 @@ int i2c_write(uint8_t * buf, uint16_t len)
 
 int i2c_read(uint8_t * buf, uint16_t len)
 {
-	if (read(s_fd, buf, len) < 0) {
+	int res = read(s_fd, buf, len);
+	if (res < 0) {
 		fprintf(stderr, "error read %s\n", strerror(errno));
 		return errno;
+	}
+	if (res != len) {
+		fprintf(stderr, "error read size %d != %d\n", res, len);
+		return -1;
 	}
 	return 0;
 }

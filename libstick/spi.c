@@ -15,11 +15,12 @@ int spi_init(void)
 {
 	spi_deinit();
 	const char * dev = "/dev/spidev0.0";
-	s_fd = open(dev, O_RDWR);
-	if (s_fd < 0) {
+	int res = open(dev, O_RDWR);
+	if (res < 0) {
 		fprintf(stderr, "error open(%s) %s\n", dev, strerror(errno));
 		return errno;
 	}
+	s_fd = res;
 	return 0;
 }
 
