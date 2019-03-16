@@ -27,6 +27,8 @@ int read_accel(short * accel)
     CHK(i2c_init(s_dev_addr));
     uint8_t v = ACCEL_XOUT_H;
     uint8_t buf[6] = { 0 };
+    // CHK(i2c_write(&v, sizeof(v)));
+    // CHK(i2c_read(buf, sizeof(buf)));
     CHK(i2c_write_read(&v, sizeof(v), buf, sizeof(buf)));
     for (int i = 0; i < 3; ++i) {
         accel[i] = (short)((buf[i * 2] << 8) + (buf[i * 2 + 1] & 0xFF));
@@ -44,6 +46,8 @@ int read_gyro(short * gyro)
     CHK(i2c_init(s_dev_addr));
     uint8_t v = GYRO_XOUT_H;
     uint8_t buf[6] = { 0 };
+    // CHK(i2c_write(&v, sizeof(v)));
+    // CHK(i2c_read(buf, sizeof(buf)));
     CHK(i2c_write_read(&v, sizeof(v), buf, sizeof(buf)));
     for (int i = 0; i < 3; ++i) {
         gyro[i] = (short)((buf[i * 2] << 8) + (buf[i * 2 + 1] & 0xFF));
