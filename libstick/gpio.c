@@ -61,8 +61,8 @@ int gpio_deinit(void)
 static void configure(int pin, int mode)
 {
     int index = pin / 10;
-    unsigned int mask = ~(7 << ((pin % 10) * 3));
-    s_gpio_base[index] = (s_gpio_base[index] & mask) | ((mode & 7) << ((pin % 10) * 3));
+    unsigned int mask = ~(0b0111 << ((pin % 10) * 3));
+    s_gpio_base[index] = (s_gpio_base[index] & mask) | ((mode & 0b0111) << ((pin % 10) * 3));
 }
 
 void gpio_write(uint32_t pin, uint32_t pol)
