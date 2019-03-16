@@ -43,7 +43,7 @@ int spi_init(void)
 		fprintf(stderr, "error ioctl(SPI_IOC_RD_MODE32) %s\n", strerror(errno));
 		goto error;
 	}
-	printf("SPI settings\nMode : %u\nLSB First : %u\nBitsPerWord : %u\nMaxSpeedHz : %u\nRD Mode : %u\n",
+	printf("SPI settings\nMode : %u\nLSB First : %u\nBitsPerWord : %u\nMaxSpeedHz : %u\nModeField : %u\n",
 	      mode, bitjust, word, speed, mode32);
 	return 0;
 error:
