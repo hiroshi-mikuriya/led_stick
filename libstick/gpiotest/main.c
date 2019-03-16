@@ -7,6 +7,7 @@ int main()
     if (gpio_init() != 0)
         return 1;
     int pin = 5;
+    gpio_configure(5, GPIO_INPUT);
     for (;;) {
         printf("PIN:%d  LEV:%d\n", pin, gpio_read(pin));
         sleep(1);

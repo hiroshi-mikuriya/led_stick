@@ -21,16 +21,6 @@
 #define GPPUD			37
 #define GPPUDCLK0		38
 
-// mode定義
-#define GPIO_INPUT		0
-#define GPIO_OUTPUT		1
-#define GPIO_ALT0		4
-#define GPIO_ALT1		5
-#define GPIO_ALT2		6
-#define GPIO_ALT3		7
-#define GPIO_ALT4		3
-#define GPIO_ALT5		2
-
 static volatile uint32_t * s_gpio_base = NULL;
 
 int gpio_init(void)
@@ -65,22 +55,21 @@ int gpio_deinit(void)
 	return 0;
 }
 
-static void configure(int pin, int mode)
+void gpio_configure(int pin, int mode)
 {
     int index = pin / 10;
-    unsigned int mask = ~(0b0111 << ((pin % 10) * 3));
-    s_gpio_base[index] = (s_gpio_base[index] & mask) | ((mode & 0b0111) << ((pin % 10) * 3));
+	uint32_t shift = (pin % 10) * 3;
+    uint32_t mask = ~(0b0111 << shift);
+    s_gpio_base[index] = (s_gpio_base[index] & mask) | ((mode & 0b0111) << shift);
 }
 
 void gpio_write(uint32_t pin, uint32_t pol)
 {
-	configure(pin, GPIO_OUTPUT);
 	int reg = (pol == 0)? GPCLR0 : GPSET0;
 	s_gpio_base[reg] |= 1 << pin;
 }
 
 uint32_t gpio_read(uint32_t pin)
 {
-	configure(pin, GPIO_INPUT);
 	return (s_gpio_base[GPLEV0] & (1 << pin)) != 0;
 }
