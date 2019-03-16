@@ -6,11 +6,15 @@ int main()
 {
 	if (gpio_init() != 0)
 		return 1;
-	int pin = 5;
-	gpio_configure(pin, GPIO_INPUT);
-	gpio_set_pull(pin, GPIO_PULLUP);
 	for (;;) {
-		printf("PIN:%d  LEV:%d\n", pin, gpio_read(pin));
+		for (int pin = 16; pin < 32; ++pin) {
+			gpio_configure(pin, GPIO_INPUT);
+			// gpio_set_pull(pin, GPIO_PULLUP);
+			if ((pin % 8) == 0)
+				puts("");
+			printf("PIN:%2d(%u)  ", pin, gpio_read(pin));
+		}
+		puts("");
 		sleep(1);
 	}
 	if (gpio_deinit() != 0)
