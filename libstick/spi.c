@@ -70,7 +70,7 @@ int spi_write(uint8_t * buf, uint16_t len, int cs)
 			//.rx_buf,
 			.len = len,
 			.speed_hz = 2 * 1000 * 1000,
-			//.delay_usecs
+			//.delay_usecs,
 			.bits_per_word = 8,
 			.cs_change = cs,
 			//.tx_nbits,
@@ -79,7 +79,7 @@ int spi_write(uint8_t * buf, uint16_t len, int cs)
 		}
 	};
 	if (ioctl(s_fd, SPI_IOC_MESSAGE(NUM_OF_MSG), &mesgs) < 0) {
-		fprintf(stderr, "error ioctl(SPI_IOC_MAGIC) %s\n", strerror(errno));
+		fprintf(stderr, "error ioctl(SPI_IOC_MESSAGE) %s\n", strerror(errno));
 		return errno;
 	}
 	return 0;
