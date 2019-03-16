@@ -24,6 +24,7 @@ int stick_init(void)
 	res = i2c_write(v, sizeof(v));
 	if (res != 0)
 		goto error;
+	gpio_configure(BUTTON_PIN, GPIO_INPUT);
 	return 0;
 error:
 	i2c_deinit();
