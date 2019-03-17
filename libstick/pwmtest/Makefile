@@ -5,7 +5,7 @@ TARGET		:= pwmtest
 PROJ_ROOT	:= $(realpath .)
 SRCS		:= main.c
 OBJS		:= $(SRCS:.c=.o)
-LIBS		:= -lbcm2835 -lstick
+LIBS		:= -lbcm2835
 
 ### Rules ######################################################################
 
