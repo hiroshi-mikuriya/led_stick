@@ -5,8 +5,8 @@
 #include "mpu6050reg.h"
 
 #define MPU6050_SLAVE	0x68
-#define SPI_WRITE	0x02
-#define BUTTON_PIN	0x05
+#define SPI_WRITE		0x02
+#define BUTTON_GPIO		0x05
 
 int stick_init(void)
 {
@@ -24,8 +24,8 @@ int stick_init(void)
 	err = i2c_write(v, sizeof(v));
 	if (err)
 		goto error;
-	gpio_configure(BUTTON_PIN, GPIO_INPUT);
-	gpio_set_pull(BUTTON_PIN, GPIO_PULLUP);
+	gpio_configure(BUTTON_GPIO, GPIO_INPUT);
+	gpio_set_pull(BUTTON_GPIO, GPIO_PULLUP);
 	return 0;
 error:
 	i2c_deinit();
@@ -103,5 +103,5 @@ int get_gyro(short * gyro)
 
 int get_button()
 {
-	return gpio_read(BUTTON_PIN);
+	return gpio_read(BUTTON_GPIO);
 }
