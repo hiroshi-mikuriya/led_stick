@@ -84,9 +84,8 @@ int get_accel(short * accel)
 	int err = i2c_write_read(&v, sizeof(v), buf, sizeof(buf));
 	if (err)
 		return err;
-	for (int i = 0; i < 3; ++i) {
+	for (int i = 0; i < 3; ++i)
 		accel[i] = (short)((buf[i * 2] << 8) + (buf[i * 2 + 1] & 0xFF));
-	}
 	return 0;
 }
 
@@ -97,9 +96,8 @@ int get_gyro(short * gyro)
 	int err = i2c_write_read(&v, sizeof(v), buf, sizeof(buf));
 	if (err)
 		return err;
-	for (int i = 0; i < 3; ++i) {
+	for (int i = 0; i < 3; ++i)
 		gyro[i] = (short)((buf[i * 2] << 8) + (buf[i * 2 + 1] & 0xFF));
-	}
 	return 0;
 }
 
