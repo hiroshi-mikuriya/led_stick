@@ -67,15 +67,10 @@ int spi_write(uint8_t * buf, uint16_t len, int cs)
 	struct spi_ioc_transfer mesgs[NUM_OF_MSG] = {
 		{
 			.tx_buf = (unsigned long)buf,
-			//.rx_buf,
 			.len = len,
 			.speed_hz = 2 * 1000 * 1000,
-			//.delay_usecs,
 			.bits_per_word = 8,
 			.cs_change = cs,
-			//.tx_nbits,
-			//.rx_nbits,
-			//.pad,
 		}
 	};
 	if (ioctl(s_fd, SPI_IOC_MESSAGE(NUM_OF_MSG), &mesgs) < 0) {
@@ -83,9 +78,54 @@ int spi_write(uint8_t * buf, uint16_t len, int cs)
 		return errno;
 	}
 	return 0;
+#undef NUM_OF_MSG
 }
 
 int spi_read(uint8_t * buf, uint16_t len, int cs)
 {
-	return -1;
+#define NUM_OF_MSG   1
+	struct spi_ioc_transfer mesgs[NUM_OF_MSG] = {
+		{
+			.rx_buf = (unsigned long)buf,
+			.len = len,
+			.speed_hz = 2 * 1000 * 1000,
+			.bits_per_word = 8,
+			.cs_change = cs,
+		}
+	};
+	if (ioctl(s_fd, SPI_IOC_MESSAGE(NUM_OF_MSG), &mesgs) < 0) {
+		fprintf(stderr, "error ioctl(SPI_IOC_MESSAGE) %s\n", strerror(errno));
+		return errno;
+	}
+	return 0;
+#undef NUM_OF_MSG
+}
+
+int spi_write_read(uint8_t * wbuf, uint16_t wlen, uint8_t * rbuf, uint16_t rlen, int cs)
+{
+	const uint32_t speed_hz = 2 * 1000 * 1000;
+	const uint8_t bits_per_word = 8;
+#define NUM_OF_MSG   2
+	struct spi_ioc_transfer mesgs[NUM_OF_MSG] = {
+		{
+			.tx_buf = (unsigned long)wbuf,
+			.len = wlen,
+			.speed_hz = speed_hz,
+			.bits_per_word = bits_per_word,
+			.cs_change = cs,
+		},
+		{
+			.rx_buf = (unsigned long)rbuf,
+			.len = rlen,
+			.speed_hz = speed_hz,
+			.bits_per_word = bits_per_word,
+			.cs_change = cs,
+		}
+	};
+	if (ioctl(s_fd, SPI_IOC_MESSAGE(NUM_OF_MSG), &mesgs) < 0) {
+		fprintf(stderr, "error ioctl(SPI_IOC_MESSAGE) %s\n", strerror(errno));
+		return errno;
+	}
+	return 0;
+#undef NUM_OF_MSG
 }
