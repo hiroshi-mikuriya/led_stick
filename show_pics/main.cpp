@@ -26,8 +26,9 @@ namespace
 				a[y * 3 + 1] = bgr[1] / 64;
 				a[y * 3 + 2] = bgr[0] / 64;
 			}
-			if (write_line(x + offset, a) != 0)
-				std::exit(1);
+			int err = write_line(x + offset, a);
+			if (err)
+				std::exit(err);
 		}
 	}
 
@@ -40,11 +41,13 @@ namespace
 			btn0 = btn1;
 			int offset = n * IMG_WIDTH;
 			short accel[3] = { 0 };
-			if (get_accel(accel) != 0)
-				std::exit(1);
+			int err = get_accel(accel);
+			if (err)
+				std::exit(err);
 			int line = (accel[1] + 0x8000) * IMG_WIDTH / 0x10000;
-			if (show_line(offset + line) != 0)
-				std::exit(1);
+			err = show_line(offset + line);
+			if (err)
+				std::exit(err);
 			usleep(1000);
 		}
 	}
@@ -57,8 +60,12 @@ int main(int argc, const char * argv[])
 		std::cerr << "input image file path." << std::endl;
 		return 1;
 	}
-	if (stick_init() != 0 || stop_led_demo() != 0)
-		return 1;
+	int err = stick_init();
+	if (err)
+		return err;
+	err = stop_led_demo();
+	if (err)
+		return err;
 	std::cerr << "writing image..." << std::endl;
 	for (int i = 0; i < nimgs; ++i)
 		write(argv[i + 1], i);

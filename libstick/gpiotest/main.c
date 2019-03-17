@@ -4,7 +4,7 @@
 
 int main()
 {
-	if (gpio_init() != 0)
+	if (gpio_init())
 		return 1;
 	for (;;) {
 		for (int pin = 16; pin < 32; ++pin) {
@@ -17,7 +17,7 @@ int main()
 		puts("");
 		sleep(1);
 	}
-	if (gpio_deinit() != 0)
+	if (gpio_deinit())
 		return 1;
 	return 0;
 }

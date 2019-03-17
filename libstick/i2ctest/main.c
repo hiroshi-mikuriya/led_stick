@@ -4,15 +4,14 @@
 
 int main()
 {
-	int res = init_mpu6050(0x68);
-	if (res != 0)
+	if (init_mpu6050(0x68))
 		return 1;
 	for (;;) {
 		short accel[3] = { 0 };
 		short gyro[3] = { 0 };
-		if (read_accel(accel) != 0)
+		if (read_accel(accel))
 			return 1;
-		if (read_gyro(gyro) != 0)
+		if (read_gyro(gyro))
 			return 1;
 		printf("accel:%7d%7d%7d  gyro:%7d%7d%7d\n", accel[0], accel[1], accel[2],
 			   gyro[0], gyro[1], gyro[2]);

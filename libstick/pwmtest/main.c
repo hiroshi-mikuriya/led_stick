@@ -26,7 +26,7 @@ int main()
 	}
 	return 0;
 #else
-	if (gpio_init() != 0 || pwm_init() != 0)
+	if (gpio_init() || pwm_init())
 		return 1;
 	gpio_configure(gpio, GPIO_ALT5);
 	pwm_set_clock(div);

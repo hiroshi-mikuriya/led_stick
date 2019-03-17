@@ -10,19 +10,19 @@
 
 int stick_init(void)
 {
-	int res = 0;
-	res = i2c_init(MPU6050_SLAVE);
-	if (res != 0)
+	int err = 0;
+	err = i2c_init(MPU6050_SLAVE);
+	if (err)
 		goto error;
-	res = spi_init();
-	if (res != 0)
+	err = spi_init();
+	if (err)
 		goto error;
-	res = gpio_init();
-	if (res != 0)
+	err = gpio_init();
+	if (err)
 		goto error;
 	uint8_t v[] = { PWR_MGMT_1, 0 };
-	res = i2c_write(v, sizeof(v));
-	if (res != 0)
+	err = i2c_write(v, sizeof(v));
+	if (err)
 		goto error;
 	gpio_configure(BUTTON_PIN, GPIO_INPUT);
 	gpio_set_pull(BUTTON_PIN, GPIO_PULLUP);
@@ -31,20 +31,20 @@ error:
 	i2c_deinit();
 	spi_deinit();
 	gpio_deinit();
-	return res;
+	return err;
 }
 
 int stick_deinit(void)
 {
-	int res0 = i2c_deinit();
-	int res1 = spi_deinit();
-	int res2 = gpio_deinit();
-	if (res0 != 0)
-		return res0;
-	if (res1 != 0)
-		return res1;
-	if (res2 != 0)
-		return res2;
+	int err0 = i2c_deinit();
+	int err1 = spi_deinit();
+	int err2 = gpio_deinit();
+	if (err0)
+		return err0;
+	if (err1)
+		return err1;
+	if (err2)
+		return err2;
 	return 0;
 }
 
@@ -81,9 +81,9 @@ int get_accel(short * accel)
 {
 	uint8_t v = ACCEL_XOUT_H;
 	uint8_t buf[6] = { 0 };
-	int res = i2c_write_read(&v, sizeof(v), buf, sizeof(buf));
-	if (res != 0)
-		return res;
+	int err = i2c_write_read(&v, sizeof(v), buf, sizeof(buf));
+	if (err)
+		return err;
 	for (int i = 0; i < 3; ++i) {
 		accel[i] = (short)((buf[i * 2] << 8) + (buf[i * 2 + 1] & 0xFF));
 	}
@@ -94,9 +94,9 @@ int get_gyro(short * gyro)
 {
 	uint8_t v = GYRO_XOUT_H;
 	uint8_t buf[6] = { 0 };
-	int res = i2c_write_read(&v, sizeof(v), buf, sizeof(buf));
-	if (res != 0)
-		return res;
+	int err = i2c_write_read(&v, sizeof(v), buf, sizeof(buf));
+	if (err)
+		return err;
 	for (int i = 0; i < 3; ++i) {
 		gyro[i] = (short)((buf[i * 2] << 8) + (buf[i * 2 + 1] & 0xFF));
 	}
