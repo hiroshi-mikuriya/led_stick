@@ -13,39 +13,50 @@ static int s_fd = 0;
 
 int spi_init(void)
 {
-	spi_deinit();
+	int res = 0;
+	if (s_fd)
+		return res;
 	const char * dev = "/dev/spidev0.0";
-	int res = open(dev, O_RDWR);
-	if (res < 0) {
+	int fd = open(dev, O_RDWR);
+	if (fd < 0) {
 		fprintf(stderr, "error open(%s) %s\n", dev, strerror(errno));
-		goto error;
+		return errno;
 	}
-	s_fd = res;
+	s_fd = fd;
 	uint8_t mode = 0, bitjust = 0, word = 0;
 	uint32_t speed = 0, mode32 = 0;
+	puts("SPI settings");
 	if (ioctl(s_fd, SPI_IOC_RD_MODE, &mode) < 0) {
 		fprintf(stderr, "error ioctl(SPI_IOC_RD_MODE) %s\n", strerror(errno));
+		res = errno;
 		goto error;
 	}
+	printf("Mode : %u\n", mode);
 	if (ioctl(s_fd, SPI_IOC_RD_LSB_FIRST, &bitjust) < 0) {
 		fprintf(stderr, "error ioctl(SPI_IOC_RD_LSB_FIRST) %s\n", strerror(errno));
+		res = errno;
 		goto error;
 	}
+	printf("LSB First : %u\n", bitjust);
 	if (ioctl(s_fd, SPI_IOC_RD_BITS_PER_WORD, &word) < 0) {
 		fprintf(stderr, "error ioctl(SPI_IOC_RD_BITS_PER_WORD) %s\n", strerror(errno));
+		res = errno;
 		goto error;
 	}
+	printf("BitsPerWord : %u\n", word);
 	if (ioctl(s_fd, SPI_IOC_RD_MAX_SPEED_HZ, &speed) < 0) {
 		fprintf(stderr, "error ioctl(SPI_IOC_RD_MAX_SPEED_HZ) %s\n", strerror(errno));
+		res = errno;
 		goto error;
 	}
+	printf("MaxSpeedHz : %u\n", speed);
 	if (ioctl(s_fd, SPI_IOC_RD_MODE32, &mode32) < 0) {
 		fprintf(stderr, "error ioctl(SPI_IOC_RD_MODE32) %s\n", strerror(errno));
+		res = errno;
 		goto error;
 	}
-	printf("SPI settings\nMode : %u\nLSB First : %u\nBitsPerWord : %u\nMaxSpeedHz : %u\nModeField : %u\n",
-		   mode, bitjust, word, speed, mode32);
-	return 0;
+ 	printf("ModeField : %u\n", mode32);
+	return res;
 error:
 	spi_deinit();
 	return errno;

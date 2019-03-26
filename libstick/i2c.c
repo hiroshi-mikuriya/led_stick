@@ -15,20 +15,26 @@ static uint8_t s_dev_addr;
 
 int i2c_init(uint8_t dev_addr)
 {
-	i2c_deinit();
+	int res = 0;
+	if (s_fd)
+		return res;
 	const char * dev = "/dev/i2c-1";
-	int res = open(dev, O_RDWR);
-	if (res < 0) {
+	int fd = open(dev, O_RDWR);
+	if (fd < 0) {
 		fprintf(stderr, "error open(%s) %s\n", dev, strerror(errno));
 		return errno;
 	}
-	s_fd = res;
+	s_fd = fd;
 	s_dev_addr = dev_addr;
 	if (ioctl(s_fd, I2C_SLAVE, s_dev_addr) < 0) {
 		fprintf(stderr, "error ioctl(I2C_SLAVE) %s\n", strerror(errno));
-		return errno;
+		res = errno;
+		goto error;
 	}
-	return 0;
+	return res;
+error:
+	i2c_deinit();
+	return res;
 }
 
 int i2c_deinit(void)
