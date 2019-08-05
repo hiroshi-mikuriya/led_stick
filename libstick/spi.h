@@ -18,7 +18,7 @@ int spi_deinit(void);
  * @param [in] cs chip select 0 or 1
  * @return 0:成功 0以外:失敗
  */
-int spi_write(uint8_t * buf, uint16_t len, int cs);
+int spi_write(uint8_t* buf, uint16_t len, int cs);
 
 /**
  * @param [in] buf
@@ -26,8 +26,7 @@ int spi_write(uint8_t * buf, uint16_t len, int cs);
  * @param [in] cs chip select 0 or 1
  * @return 0:成功 0以外:失敗
  */
-int spi_read(uint8_t * buf, uint16_t len, int cs);
-
+int spi_read(uint8_t* buf, uint16_t len, int cs);
 
 /**
  * @param [in] wbuf
@@ -37,4 +36,5 @@ int spi_read(uint8_t * buf, uint16_t len, int cs);
  * @param [in] cs chip select 0 or 1
  * @return 0:成功 0以外:失敗
  */
-int spi_write_read(uint8_t * wbuf, uint16_t wlen, uint8_t * rbuf, uint16_t rlen, int cs);
+int spi_write_read(uint8_t* wbuf, uint16_t wlen, uint8_t* rbuf, uint16_t rlen,
+                   int cs);
