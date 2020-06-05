@@ -1,4 +1,5 @@
 #include "stick.h"
+
 #include "gpio.h"
 #include "i2c.h"
 #include "mpu6050reg.h"
@@ -44,7 +45,7 @@ int stop_led_demo(void) {
   return spi_write(d, sizeof(d), 0);
 }
 
-int write_line(uint16_t line, uint8_t* pattern) {
+int write_line(uint16_t line, uint8_t *pattern) {
   int addr = 0x8000 + line * 24;
   uint8_t d[24 + 3] = {SPI_WRITE, (addr >> 8) & 0xFF, addr & 0xFF};
   static const int s_table[] = {20, 18, 16, 10, 8, 22, 0, 14, 12, 6, 4, 2};
@@ -65,7 +66,7 @@ int show_line(uint16_t line) {
   return spi_write(d, sizeof(d), 0);
 }
 
-int get_accel(short* accel) {
+int get_accel(short *accel) {
   uint8_t v = ACCEL_XOUT_H;
   uint8_t buf[6] = {0};
   int err = i2c_write_read(&v, sizeof(v), buf, sizeof(buf));
@@ -75,7 +76,7 @@ int get_accel(short* accel) {
   return 0;
 }
 
-int get_gyro(short* gyro) {
+int get_gyro(short *gyro) {
   uint8_t v = GYRO_XOUT_H;
   uint8_t buf[6] = {0};
   int err = i2c_write_read(&v, sizeof(v), buf, sizeof(buf));

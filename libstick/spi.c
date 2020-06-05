@@ -1,4 +1,5 @@
 #include "spi.h"
+
 #include <errno.h>
 #include <fcntl.h>
 #include <linux/spi/spidev.h>
@@ -14,7 +15,7 @@ static int s_fd = 0;
 int spi_init(void) {
   int res = 0;
   if (s_fd) return res;
-  const char* dev = "/dev/spidev0.0";
+  const char *dev = "/dev/spidev0.0";
   int fd = open(dev, O_RDWR);
   if (fd < 0) {
     fprintf(stderr, "error open(%s) %s\n", dev, strerror(errno));
@@ -71,7 +72,7 @@ int spi_deinit(void) {
   return 0;
 }
 
-int spi_write(uint8_t* buf, uint16_t len, int cs) {
+int spi_write(uint8_t *buf, uint16_t len, int cs) {
 #define NUM_OF_MSG 1
   struct spi_ioc_transfer mesgs[NUM_OF_MSG] = {{
       .tx_buf = (unsigned long)buf,
@@ -88,7 +89,7 @@ int spi_write(uint8_t* buf, uint16_t len, int cs) {
 #undef NUM_OF_MSG
 }
 
-int spi_read(uint8_t* buf, uint16_t len, int cs) {
+int spi_read(uint8_t *buf, uint16_t len, int cs) {
 #define NUM_OF_MSG 1
   struct spi_ioc_transfer mesgs[NUM_OF_MSG] = {{
       .rx_buf = (unsigned long)buf,
@@ -105,7 +106,7 @@ int spi_read(uint8_t* buf, uint16_t len, int cs) {
 #undef NUM_OF_MSG
 }
 
-int spi_write_read(uint8_t* wbuf, uint16_t wlen, uint8_t* rbuf, uint16_t rlen,
+int spi_write_read(uint8_t *wbuf, uint16_t wlen, uint8_t *rbuf, uint16_t rlen,
                    int cs) {
   const uint32_t speed_hz = 2 * 1000 * 1000;
   const uint8_t bits_per_word = 8;
