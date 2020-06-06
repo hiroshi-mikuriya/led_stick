@@ -15,4 +15,10 @@ done
 
 cd $BUILD
 cmake ..
+cd libstick
 make
+make install
+ldconfig
+cd ../show_pics
+make
+make install

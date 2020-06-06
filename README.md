@@ -21,3 +21,9 @@ enable I2C, SPI
 ```
 $ sudo raspi-config
 ```
+
+install application
+
+```
+$ sudo bash install.sh
+```
