@@ -30,7 +30,7 @@ int stop_led_demo(void);
  * should be between 0 and 3.
  * @return 0:成功 0以外:失敗
  */
-int write_line(uint16_t line, uint8_t* pattern);
+int write_line(uint16_t line, uint8_t *pattern);
 
 /**
  * @param[in] line 0 - 1364
@@ -42,13 +42,13 @@ int show_line(uint16_t line);
  * @param[out] accel [x, y, z]
  * @return 0:成功 0以外:失敗
  */
-int get_accel(short* accel);
+int get_accel(short *accel);
 
 /**
  * @param[out] gyro [x, y, z]
  * @return 0:成功 0以外:失敗
  */
-int get_gyro(short* gyro);
+int get_gyro(short *gyro);
 
 /**
  * @return Level (0 or 1)

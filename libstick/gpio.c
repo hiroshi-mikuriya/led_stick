@@ -1,6 +1,7 @@
 // 参考URL: https://www.ei.tohoku.ac.jp/xkozima/lab/raspTutorial3.html
 
 #include "gpio.h"
+
 #include <errno.h>
 #include <fcntl.h>
 #include <stdint-gcc.h>

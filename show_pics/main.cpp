@@ -1,13 +1,15 @@
 #include <unistd.h>
+
 #include <cstdint>
 #include <cstdlib>
 #include <opencv2/opencv.hpp>
+
 #include "stick.h"
 
 namespace {
 const int IMG_WIDTH = COUNT_OF_LINES / 10;
 
-void write(const char* file, int n) {
+void write(const char *file, int n) {
   cv::Mat img = cv::imread(file, 1);
   if (img.empty()) {
     std::cerr << "failed to open " << file << std::endl;
@@ -47,7 +49,7 @@ void show(int nimgs) {
 }
 }  // namespace
 
-int main(int argc, const char* argv[]) {
+int main(int argc, const char *argv[]) {
   const int nimgs = argc - 1;
   if (nimgs <= 0) {
     std::cerr << "input image file path." << std::endl;

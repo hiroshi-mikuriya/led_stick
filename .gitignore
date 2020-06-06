@@ -1,16 +1,17 @@
 *
 
 !*/
+!.gitignore
 !*.c
 !*.cpp
 !*.h
-!*.rb
-!*.py
 !*.md
-!Makefile
-!.gitignore
 !*.png
 !*.jpg
 !*.jpeg
 !*.bmp
 !*.pdf
+!*.service
+!*.sh
+!CMakeLists.txt
+CMakeFiles
